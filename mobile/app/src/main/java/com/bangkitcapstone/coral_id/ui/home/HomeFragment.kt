@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.data.DataCoral
 import com.bangkitcapstone.coral_id.databinding.FragmentHomeBinding
@@ -30,9 +32,14 @@ class HomeFragment : Fragment() {
 
         /*val listCoral = DataDummy.generateDummyCoral()
         Log.d("Lihat :", listCoral.toString())*/
+
+        binding?.button?.setOnClickListener {
+            it.findNavController().navigate(R.id.action_homeFragment_to_scanFragment)
+        }
     }
 
-    companion object {
-
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
