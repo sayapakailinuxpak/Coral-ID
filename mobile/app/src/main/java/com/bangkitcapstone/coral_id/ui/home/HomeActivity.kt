@@ -1,7 +1,8 @@
-package com.bangkitcapstone.coral_id
+package com.bangkitcapstone.coral_id.ui.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bangkitcapstone.coral_id.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
