@@ -2,4 +2,8 @@
     <string name="app_name">Coral-ID</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="result">Result</string>
+    <string name="hard_coral">HARD CORAL</string>
+    <string name="acropora_brueggemanni">Acropora brueggemanni</string>
+    <string name="button_coral_detail">Button coral detail</string>
 </resources>

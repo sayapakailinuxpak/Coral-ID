@@ -34,6 +34,7 @@ ext {
     room_version = "2.3.0"
     dagger_version = "2.27"
     nav_version = "2.3.5"
+    roundedImageView = "2.3.0"
 }
 
 task clean(type: Delete) {
