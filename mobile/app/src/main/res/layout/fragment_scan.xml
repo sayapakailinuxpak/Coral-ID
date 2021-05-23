@@ -11,7 +11,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="0dp"
+        app:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,7 +21,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/mtoolbar_detail"
+                android:id="@+id/mtoolbar_scan"
                 style="@style/Widget.Coral_ID.Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
@@ -86,19 +86,20 @@
             android:textAlignment="center"
             android:textSize="12sp"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_pick_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_scan"
             android:textSize="12sp"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/poppins_medium"
             android:textColor="@color/primaryColor"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"
-            android:background="@drawable/rounded_button"
-            android:layout_gravity="center"/>
+            android:textAllCaps="false"
+            android:fontFamily="@font/poppins_medium"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_gravity="center_horizontal"
+            app:strokeColor="@color/primaryColor"
+            app:cornerRadius="18dp"
+            app:strokeWidth="2dp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

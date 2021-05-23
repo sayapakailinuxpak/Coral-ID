@@ -29,8 +29,14 @@ class ScanFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.btnFlash?.setOnClickListener(this)
-        binding?.btnPickImage?.setOnClickListener(this)
+        binding?.apply {
+            mtoolbarScan.setNavigationOnClickListener {
+                Toast.makeText(activity, "Close scan fragment", Toast.LENGTH_SHORT).show()
+            }
+            btnFlash.setOnClickListener(this@ScanFragment)
+            btnPickImage.setOnClickListener(this@ScanFragment)
+        }
+
     }
 
     override fun onClick(v: View?) {
