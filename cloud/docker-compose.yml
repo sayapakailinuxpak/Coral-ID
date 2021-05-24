@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+    api:
+        # build from current directory
+        # which is the code stored
+        build: .
+        command: python ./api/manage.py runserver 0.0.0.0:8000
+        volumes:
+            - .:/workspace
+        # map container port to local machine port
+        ports:
+            - "8000:8000"
