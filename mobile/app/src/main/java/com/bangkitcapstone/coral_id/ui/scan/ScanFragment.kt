@@ -19,8 +19,13 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.databinding.FragmentScanBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -74,6 +79,14 @@ class ScanFragment : Fragment(), View.OnClickListener {
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == SELECT_SUCCESS_CODE && requestCode == SELECT_PICTURE_CODE) {
+            Toast.makeText(context, "Capture success", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_scanFragment_to_resultFragment)
+        }
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -97,15 +110,15 @@ class ScanFragment : Fragment(), View.OnClickListener {
             }
             R.id.btn_pick_image -> {
                 takePhoto()
-                // TODO: 5/24/2021 Find solution for this, need delay before intent to next fragment 
-                //findNavController().navigate(R.id.action_scanFragment_to_resultFragment)
+                CoroutineScope(Main).launch {
+                    delay(100)
+                    findNavController().navigate(R.id.action_scanFragment_to_resultFragment)
+                }
             }
             R.id.btn_storage -> {
-                // TODO: 5/24/2021 Still confuse how this work 
-                // TODO: 5/24/2021 Re-design fragment_scan.xml and test Flash
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI).also {
                     it.setType("image/*")
-                    startActivity(it)
+                    startActivityForResult(it, SELECT_PICTURE_CODE)
                 }
             }
         }
@@ -144,9 +157,8 @@ class ScanFragment : Fragment(), View.OnClickListener {
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
-                    val msg = "Capture success: $savedUri"
-                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg)
+                    Toast.makeText(context, "Capture success", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "Capture success: $savedUri")
                 }
 
                 override fun onError(e: ImageCaptureException) {
@@ -170,9 +182,6 @@ class ScanFragment : Fragment(), View.OnClickListener {
                 }
 
             imageCapture = ImageCapture.Builder()
-                .setFlashMode(
-                    if (flash) ImageCapture.FLASH_MODE_ON else ImageCapture.FLASH_MODE_OFF
-                )
                 .build()
             // check flash status
             Log.d(TAG, if (flash) "Flash on" else "Flash off")
@@ -181,8 +190,8 @@ class ScanFragment : Fragment(), View.OnClickListener {
 
             try {
                 cameraProvider.unbindAll()
-                val cam =
-                    cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
+                val cam = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
+                cam.cameraControl.enableTorch(flash)
             } catch (e: Exception) {
                 Log.e(TAG, "Use case binding failed", e)
             }
@@ -211,6 +220,8 @@ class ScanFragment : Fragment(), View.OnClickListener {
     companion object {
         private const val TAG = "Scan Fragment"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+        private const val SELECT_PICTURE_CODE = 100
+        private const val SELECT_SUCCESS_CODE = -1
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
