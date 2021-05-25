@@ -11,6 +11,32 @@ export GOOGLE_CLOUD_PROJECT=$(gcloud config get-value project)
 # Enable API service for container.googleapis.com
 gcloud services enable container.googleapis.com
 
+# Create service accounts for jenkins
+gcloud iam service-accounts create jenkins-sa --display-name "jenkins-sa"
+
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
+    --member "serviceAccount:jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com" \
+    --role "roles/viewer"
+
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
+    --member "serviceAccount:jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com" \
+    --role "roles/source.reader"
+
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
+    --member "serviceAccount:jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com" \
+    --role "roles/storage.admin"
+
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
+    --member "serviceAccount:jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com" \
+    --role "roles/storage.objectAdmin"
+
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
+    --member "serviceAccount:jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com" \
+    --role "roles/cloudbuild.builds.editor"
+
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
+    --member "serviceAccount:jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com" \
+    --role "roles/container.developer"
 
 ###############################
 ##### Kubernetes Engine #######
@@ -36,7 +62,7 @@ tar zxfv helm-v3.2.1-linux-amd64.tar.gz
 cp linux-amd64/helm .
 
 # Add ourself as cluster-admin
-kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
+# kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
 
 # Add stable chart
 ./helm repo add jenkinsci https://charts.jenkins.io
