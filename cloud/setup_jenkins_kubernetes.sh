@@ -1,47 +1,12 @@
-# This script based on https://github.com/GoogleCloudPlatform/continuous-deployment-on-kubernetes
-
 ###############################
 ####### Initial Setup #########
 ###############################
 
 # Set up default compute zone
-gcloud config set compute/zone us-east1-d
+gcloud config set compute/zone asia-southeast2-a
 
 # Create Google Cloud Project ID as environment variable
 export GOOGLE_CLOUD_PROJECT=$(gcloud config get-value project)
-
-# Clone the github project
-# git clone <link>
-
-# Create IAM for jenkins account and add permissions to the GCP
-gcloud iam service-accounts create jenkins-sa --display-name "jenkins-sa"
-
-gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
-    --member "serviceAccount:jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com" \
-    --role "roles/viewer"
-
-gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
-    --member "serviceAccount:jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com" \
-    --role "roles/source.reader"
-
-gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
-    --member "serviceAccount:jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com" \
-    --role "roles/storage.admin"
-
-gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
-    --member "serviceAccount:jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com" \
-    --role "roles/storage.objectAdmin"
-
-gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
-    --member "serviceAccount:jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com" \
-    --role "roles/cloudbuild.builds.editor"
-
-gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
-    --member "serviceAccount:jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com" \
-    --role "roles/container.developer"
-
-# Create JSON key
-gcloud iam service-accounts keys create ~/jenkins-sa-key.json --iam-account "jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com"
 
 
 ###############################
@@ -52,17 +17,10 @@ gcloud iam service-accounts keys create ~/jenkins-sa-key.json --iam-account "jen
 gcloud container clusters create jenkins-cd \
   --num-nodes 2 \
   --machine-type n1-standard-2 \
-  --cluster-version 1.15 \
   --service-account "jenkins-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com"
 
-# Get the credentials
-gcloud container clusters get-credentials jenkins-cd
-
-# To see the kubernetes pods
-kubectl get pods
-
-# Add ourself in the cluster RBAC
-kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
+# Get the cluster lists
+gcloud container clusters list
 
 
 ###############################
@@ -74,8 +32,12 @@ wget https://get.helm.sh/helm-v3.2.1-linux-amd64.tar.gz
 tar zxfv helm-v3.2.1-linux-amd64.tar.gz
 cp linux-amd64/helm .
 
+# Add ourself as cluster-admin
+kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
+
 # Add stable chart
-./helm repo add stable https://kubernetes-charts.storage.googleapis.com
+./helm repo add jenkinsci https://charts.jenkins.io
+./helm repo update
 
 # Verify Installation
 ./helm version
@@ -86,7 +48,7 @@ cp linux-amd64/helm .
 ###################################
 
 # Install Jenkins based on jenkins/values.yaml
-./helm install cd-jenkins -f jenkins/values.yaml stable/jenkins --version 1.7.3 --wait
+./helm install cd-jenkins -f jenkins/values.yaml jenkinsci/jenkins --version 1.7.3 --wait
 
 # Verify installation and running
 kubectl get pods
