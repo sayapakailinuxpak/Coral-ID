@@ -13,4 +13,5 @@
     <string name="flash_config">Pengaturan Senter</string>
     <string name="storage_desc">Load image from storage</string>
     <string name="image_preview_desc">Show image from local storage</string>
+    <string name="capture">Capture</string>
 </resources>

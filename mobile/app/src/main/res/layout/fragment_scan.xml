@@ -97,17 +97,15 @@
             android:id="@+id/btn_pick_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_scan"
+            android:text="@string/capture"
             android:layout_marginTop="4dp"
             android:textSize="12sp"
-            android:textColor="@color/primaryColor"
+            android:textColor="@color/primaryTextColor"
             android:textAllCaps="false"
             android:fontFamily="@font/poppins_medium"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_gravity="center_horizontal"
-            app:strokeColor="@color/primaryColor"
-            app:cornerRadius="18dp"
-            app:strokeWidth="2dp"/>
+            app:icon="@drawable/ic_baseline_camera_24"
+            app:cornerRadius="18dp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

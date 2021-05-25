@@ -111,7 +111,7 @@ class ScanFragment : Fragment(), View.OnClickListener {
             R.id.btn_pick_image -> {
                 takePhoto()
                 CoroutineScope(Main).launch {
-                    delay(100)
+                    delay(1000)
                     findNavController().navigate(R.id.action_scanFragment_to_resultFragment)
                 }
             }
