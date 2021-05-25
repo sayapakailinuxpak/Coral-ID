@@ -8,6 +8,9 @@ gcloud config set compute/zone asia-southeast2-a
 # Create Google Cloud Project ID as environment variable
 export GOOGLE_CLOUD_PROJECT=$(gcloud config get-value project)
 
+# Enable API service for container.googleapis.com
+gcloud services enable container.googleapis.com
+
 
 ###############################
 ##### Kubernetes Engine #######
@@ -62,6 +65,7 @@ kubectl port-forward $JENKINS_POD_NAME 8080:8080 >> /dev/null &
 
 # To see if the Jenkins Service was created properly
 kubectl get svc
+
 
 ###############################
 ###### Connect to Jenkins #####
