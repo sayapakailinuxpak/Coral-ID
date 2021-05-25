@@ -22,10 +22,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.databinding.FragmentScanBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,6 +35,7 @@ class ScanFragment : Fragment(), View.OnClickListener {
     private var _binding: FragmentScanBinding? = null
     private val binding get() = _binding
     private var flash = false
+    private lateinit var imageFile: Uri
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
@@ -47,7 +44,6 @@ class ScanFragment : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentScanBinding.inflate(layoutInflater, container, false)
         return binding?.root
     }
@@ -70,8 +66,10 @@ class ScanFragment : Fragment(), View.OnClickListener {
                 Toast.makeText(activity, "Close scan fragment", Toast.LENGTH_SHORT).show()
             }
             btnFlash.setOnClickListener(this@ScanFragment)
-            btnPickImage.setOnClickListener(this@ScanFragment)
+            btnCapture.setOnClickListener(this@ScanFragment)
             btnStorage.setOnClickListener(this@ScanFragment)
+            btnConfirmNo.setOnClickListener(this@ScanFragment)
+            btnConfirmYes.setOnClickListener(this@ScanFragment)
         }
 
         outputDirectory = getOutputDirectory()
@@ -83,7 +81,9 @@ class ScanFragment : Fragment(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == SELECT_SUCCESS_CODE && requestCode == SELECT_PICTURE_CODE) {
             Toast.makeText(context, "Capture success", Toast.LENGTH_SHORT).show()
+            Log.d(TAG, data?.data.toString())
             findNavController().navigate(R.id.action_scanFragment_to_resultFragment)
+            showConfirmation(true)
         }
     }
 
@@ -108,18 +108,22 @@ class ScanFragment : Fragment(), View.OnClickListener {
             R.id.btn_flash -> {
                 flashConfig(flash)
             }
-            R.id.btn_pick_image -> {
+            R.id.btn_capture -> {
                 takePhoto()
-                CoroutineScope(Main).launch {
-                    delay(1000)
-                    findNavController().navigate(R.id.action_scanFragment_to_resultFragment)
-                }
             }
             R.id.btn_storage -> {
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI).also {
                     it.setType("image/*")
                     startActivityForResult(it, SELECT_PICTURE_CODE)
                 }
+            }
+            R.id.btn_confirm_no -> {
+                showConfirmation(false)
+                val deleted: Boolean = File(imageFile.toString().replace("file://", "")).delete()
+                Log.d(TAG, "onClick: $deleted")
+            }
+            R.id.btn_confirm_yes -> {
+                findNavController().navigate(R.id.action_scanFragment_to_resultFragment)
             }
         }
     }
@@ -157,8 +161,11 @@ class ScanFragment : Fragment(), View.OnClickListener {
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
-                    Toast.makeText(context, "Capture success", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "Capture success: $savedUri")
+                    Toast.makeText(context, "Capture Success", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "Capture Success: $savedUri")
+                    binding?.imagePreview?.setImageURI(savedUri)
+                    imageFile = savedUri
+                    showConfirmation(true)
                 }
 
                 override fun onError(e: ImageCaptureException) {
@@ -190,7 +197,8 @@ class ScanFragment : Fragment(), View.OnClickListener {
 
             try {
                 cameraProvider.unbindAll()
-                val cam = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
+                val cam =
+                    cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
                 cam.cameraControl.enableTorch(flash)
             } catch (e: Exception) {
                 Log.e(TAG, "Use case binding failed", e)
@@ -209,6 +217,26 @@ class ScanFragment : Fragment(), View.OnClickListener {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
         }
         return if (mediaDir != null && mediaDir.exists()) mediaDir else requireActivity().filesDir
+    }
+
+    private fun showConfirmation(state: Boolean) {
+        with(binding!!) {
+            if (state) {
+                imagePreview.visibility = View.VISIBLE
+                confirmCard.visibility = View.VISIBLE
+                captureCard.visibility = View.GONE
+                cameraPreview.visibility = View.GONE
+                btnFlash.visibility = View.GONE
+                cameraExecutor.shutdown()
+            } else {
+                imagePreview.visibility = View.GONE
+                confirmCard.visibility = View.GONE
+                captureCard.visibility = View.VISIBLE
+                cameraPreview.visibility = View.VISIBLE
+                btnFlash.visibility = View.VISIBLE
+                startCamera()
+            }
+        }
     }
 
     override fun onDestroyView() {
