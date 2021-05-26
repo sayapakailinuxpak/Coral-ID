@@ -1,13 +1,14 @@
-from rest_framework import views, status
+from rest_framework import views, status, viewsets, mixins
 from rest_framework.response import Response
 from django.core.files.storage import default_storage
 from django.conf import settings
 import uuid
 
 from core import serializers, predictions
+from core.models import Coral, Species
 
 
-class call_model(views.APIView):
+class CallModel(views.APIView):
     """Call the machine learning model"""
     serializer_class = serializers.ImageSerializer
 
@@ -34,3 +35,21 @@ class call_model(views.APIView):
             return Response(payload, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CoralViewSet(viewsets.GenericViewSet,
+                   mixins.ListModelMixin,
+                   mixins.RetrieveModelMixin):
+    # class CoralViewSet(viewsets.ModelViewSet):
+    """List and Retrieve Coral Model from database"""
+    queryset = Coral.objects.all()
+    serializer_class = serializers.CoralSerializer
+
+
+class SpeciesViewSet(viewsets.GenericViewSet,
+                     mixins.ListModelMixin,
+                     mixins.RetrieveModelMixin):
+    # class SpeciesViewSet(viewsets.ModelViewSet):
+    """List and Retrieve Coral Species from database"""
+    queryset = Species.objects.all()
+    serializer_class = serializers.SpeciesSerializer

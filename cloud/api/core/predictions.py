@@ -1,24 +1,6 @@
-# load_model_sample.py
-# from tensorflow.keras.models import load_model
 from keras.preprocessing import image
 import matplotlib.pyplot as plt
 import numpy as np
-# import os
-
-
-def load_image(img, show=False):
-    img_tensor = image.img_to_array(img)
-    # (1, height, width, channels), add a dimension because the model expects this shape: (batch_size, height, width, channels)
-    img_tensor = np.expand_dims(img_tensor, axis=0)
-    # imshow expects values in the range [0, 1]
-    img_tensor /= 255.
-
-    if show:
-        plt.imshow(img_tensor[0])
-        plt.axis('off')
-        plt.show()
-
-    return img_tensor
 
 
 def load_image_from_path(img_path, show=False):
