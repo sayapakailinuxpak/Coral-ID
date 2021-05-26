@@ -12,7 +12,13 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from tensorflow.keras.models import load_model
+from google.cloud import storage
 from decouple import config
+
+def download_file(bucketName, bucketFolder, localFolder, fileName):
+    """Download file from GCP bucket."""
+    blob = bucket.blob(fileName)
+    blob.download_to_filename(localFolder + fileName)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,12 +28,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = "INISECRETKEYJANGANDIAMBIL"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG")
+DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["0.0.0.0","127.0.0.1"]
 
 
 # Application definition
@@ -124,4 +130,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Machine Learning Model
-H5_MODEL = load_model("../model/model_1.h5")
+
+if DEBUG == False:
+    bucketName = 'coral-dataset'
+    bucketFolder = './'
+    storage_client = storage.Client()
+    bucket = storage_client.get_bucket(bucketName)
+    download_file(bucketName, bucketFolder, "./", "model.h5")    
+
+H5_MODEL = load_model("./model.h5")
