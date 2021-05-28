@@ -1,0 +1,32 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: coral-id-prod
+spec:
+  replicas:
+  selector:
+      matchLabels:
+          app: coral-id
+          env: prod
+  template:
+    metadata:
+      name:
+      labels:
+        app: coral-id
+        env: prod
+    spec:
+      containers:
+      - name:
+        image: gcr.io/cloud-solutions-images/coral-id:1.0.0
+        resources:
+          limits:
+            memory: "500Mi"
+            cpu: "100m"
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+        command: ["python3", "manage.py", "runserver", "0.0.0.0:80"]
+        ports:
+        - containerPort: 80

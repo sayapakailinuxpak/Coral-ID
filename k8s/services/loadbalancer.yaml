@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: coral-id-loadbalancer
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: coral-id
+    role: loadbalancer
