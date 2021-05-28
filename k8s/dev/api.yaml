@@ -10,13 +10,13 @@ spec:
           env: dev
   template:
     metadata:
-      name:
+      name: coral-id-api
       labels:
         app: coral-id
         env: dev
     spec:
       containers:
-      - name:
+      - name: coral-id-api
         image: gcr.io/cloud-solutions-images/coral-id:1.0.0
         resources:
           limits:
