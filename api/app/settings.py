@@ -31,7 +31,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "INISECRETKEYJANGANDIAMBIL"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["0.0.0.0","127.0.0.1"]
 
@@ -131,11 +131,11 @@ STATIC_URL = '/static/'
 
 # Machine Learning Model
 
-if DEBUG == False:
-    bucketName = 'coral-dataset'
-    bucketFolder = './'
-    storage_client = storage.Client()
-    bucket = storage_client.get_bucket(bucketName)
-    download_file(bucketName, bucketFolder, "./", "model.h5")    
+# Pull Machine Learning Model from GCS
+bucketName = 'coral-dataset'
+bucketFolder = './'
+storage_client = storage.Client()
+bucket = storage_client.get_bucket(bucketName)
+download_file(bucketName, bucketFolder, "./", "model.h5")    
 
 H5_MODEL = load_model("./model.h5")
