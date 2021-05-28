@@ -35,6 +35,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["0.0.0.0","127.0.0.1",
                 "34.101.77.146", # Server Development
+                "34.101.233.175", # Server Production
                 ]
 
 

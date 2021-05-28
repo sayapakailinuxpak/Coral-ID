@@ -49,9 +49,9 @@ pipeline {
       steps{
         container('kubectl') {
         // Change deployed image in canary to the one we just built
-          step([$class: 'KubernetesEngineBuilder', namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/services', credentialsId: env.JENKINS_CRED, verifyDeployments: false])
-          step([$class: 'KubernetesEngineBuilder', namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/production', credentialsId: env.JENKINS_CRED, verifyDeployments: true])
-          sh("echo http://`kubectl --namespace=production get service/${FE_SVC_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'` > ${FE_SVC_NAME}")
+          sh("sed -i.bak 's#DEBUG = True#DEBUG = False#' ./api/app/settings.py")
+          sh("sed -i.bak 's#gcr.io/cloud-solutions-images/coral-id:1.0.0#${IMAGE_TAG}#' ./k8s/prod/*.yaml")
+          sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/prod/")
         }
       }
     }
@@ -65,8 +65,6 @@ pipeline {
           // Don't use public load balancing for development branches
           sh("sed -i.bak 's#gcr.io/cloud-solutions-images/coral-id:1.0.0#${IMAGE_TAG}#' ./k8s/dev/*.yaml")
           sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/dev/")
-          echo 'To access your environment run `kubectl proxy`'
-          echo "Then access your service via http://localhost:8001/api/v1/proxy/namespaces/${env.BRANCH_NAME}/services/${FE_SVC_NAME}:80/"
         }
       }
     }

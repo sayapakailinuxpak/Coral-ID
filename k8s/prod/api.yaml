@@ -10,23 +10,19 @@ spec:
           env: prod
   template:
     metadata:
-      name:
+      name: coral-id-api
       labels:
         app: coral-id
         env: prod
     spec:
       containers:
-      - name:
+      - name: coral-id-api
         image: gcr.io/cloud-solutions-images/coral-id:1.0.0
         resources:
           limits:
             memory: "500Mi"
             cpu: "100m"
         imagePullPolicy: Always
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: 80
         command: ["python3", "manage.py", "runserver", "0.0.0.0:80"]
         ports:
         - containerPort: 80
