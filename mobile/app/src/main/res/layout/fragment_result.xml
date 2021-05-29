@@ -17,7 +17,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/mtoolbar_detail"
+                android:id="@+id/mtoolbar_result"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 app:navigationIcon="@drawable/ic_close"

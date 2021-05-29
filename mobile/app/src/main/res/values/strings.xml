@@ -6,4 +6,11 @@
     <string name="hard_coral">HARD CORAL</string>
     <string name="acropora_brueggemanni">Acropora brueggemanni</string>
     <string name="button_coral_detail">Button coral detail</string>
+    <string name="image_coral">Image Coral</string>
+    <string name="expander_indicator">Expander indicator</string>
+    <string name="famili">Famili</string>
+    <string name="pseudosiderastrea">Pseudosiderastrea</string>
+    <string name="image_dna">Image DNA</string>
+    <string name="genus">Genus</string>
+    <string name="brook_1983">BROOK, 1983</string>
 </resources>

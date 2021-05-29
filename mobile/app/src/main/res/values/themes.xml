@@ -30,4 +30,6 @@
         <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
+
+
 </resources>
