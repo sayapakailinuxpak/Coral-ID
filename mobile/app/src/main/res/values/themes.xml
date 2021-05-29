@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/secondaryLightColor</item>
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/backgroundColor</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -29,7 +29,4 @@
         <item name="fontFamily">@font/poppins_regular</item>
         <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
-
-
-
 </resources>

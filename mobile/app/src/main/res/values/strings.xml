@@ -13,4 +13,16 @@
     <string name="image_dna">Image DNA</string>
     <string name="genus">Genus</string>
     <string name="brook_1983">BROOK, 1983</string>
+    <string name="scan_coral">Scan Coral</string>
+    <string name="camera_suggestion">Place camera to object and keep steady</string>
+    <string name="button_scan">Pick Image</string>
+    <string name="or">or</string>
+    <string name="flash_config">Pengaturan Senter</string>
+    <string name="storage_desc">Load image from storage</string>
+    <string name="image_preview_desc">Show image from local storage</string>
+    <string name="capture">Capture</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="process_confirm">Process this image ?</string>
+>>>>>>> dev-mobile
 </resources>
