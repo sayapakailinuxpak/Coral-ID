@@ -2,6 +2,7 @@ package com.bangkitcapstone.coral_id.data
 
 data class DataCoral(
     val id: Int = 0,
+    val type: String? = null,
     val name: String? = null,
     val family: String? = null,
     val genus: String? = null,
@@ -10,5 +11,6 @@ data class DataCoral(
     val characteristics: String? = null,
     val color: String? = null,
     val similar: String? = null,
-    val distribution: String? = null
+    val distribution: String? = null,
+    val image: String? = null
 )

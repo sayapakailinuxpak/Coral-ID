@@ -9,6 +9,7 @@ object DataDummy {
         listCoral.add(
             DataCoral(
                 1,
+                "Hard Coral",
                 "Acropora brueggemanni",
                 "Acroporidae",
                 "Acropora",
@@ -20,7 +21,28 @@ object DataDummy {
                 "Coklat muda dan mendekati ujung memutih",
                 "Jenis ini mudah dibedakan dari yang lain dengan ciri khas adanya benjolan-benjolan diujung " +
                         "dari percabangan yang kadang-kadang terdiri dari dua axial koralit.",
-                "Tersebar di seluruh perairan Indonesia, jenis ini sangat umum dijumpai di daerah tubir."
+                "Tersebar di seluruh perairan Indonesia, jenis ini sangat umum dijumpai di daerah tubir.",
+                "https://miro.medium.com/max/3000/0*9hoWTBVQ27qeAtUo"
+            )
+        )
+
+        listCoral.add(
+            DataCoral(
+                2,
+                "Hard Coral",
+                "Acropora brueggemanni",
+                "Acroporidae",
+                "Acropora",
+                "BROOK",
+                "1983",
+                "Koloni dengan percabangan arboresen, cabang dengan satu atau dua axial koralit. " +
+                        "Percabangan tidak teratur dan mendekati kearah ujung mem-bengkak, " +
+                        "berbenjol-benjol tidak teratur. Radial koralit membulat tersebar rapat tidak beraturan",
+                "Coklat muda dan mendekati ujung memutih",
+                "Jenis ini mudah dibedakan dari yang lain dengan ciri khas adanya benjolan-benjolan diujung " +
+                        "dari percabangan yang kadang-kadang terdiri dari dua axial koralit.",
+                "Tersebar di seluruh perairan Indonesia, jenis ini sangat umum dijumpai di daerah tubir.",
+                "https://miro.medium.com/max/3000/0*9hoWTBVQ27qeAtUo"
             )
         )
 
