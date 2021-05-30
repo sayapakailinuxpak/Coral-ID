@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.databinding.FragmentResultBinding
 
 class ResultFragment : Fragment() {
@@ -29,6 +31,7 @@ class ResultFragment : Fragment() {
 
         binding.mtoolbarResult.setNavigationOnClickListener {
             Toast.makeText(activity, "Close result fragment", Toast.LENGTH_SHORT).show()
+            it.findNavController().navigate(R.id.action_resultFragment_to_detailFragment)
         }
 
         val viewModel = ViewModelProvider(

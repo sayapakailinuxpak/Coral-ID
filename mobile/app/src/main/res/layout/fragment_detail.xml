@@ -6,51 +6,87 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.detail.DetailFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="304dp"
-        android:elevation="0dp">
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="304dp"-->
+<!--        android:elevation="0dp">-->
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<!--        <com.google.android.material.appbar.CollapsingToolbarLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
 
-            <ImageView
-                android:id="@+id/image_coral_detail"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_launcher_background"
-                android:scaleType="fitXY"
-                android:contentDescription="@string/image_coral" />
+<!--            -->
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/mtoolbar_detail"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/transparent"
-                app:navigationIcon="@drawable/ic_back_button"/>
+<!--        </com.google.android.material.appbar.CollapsingToolbarLayout>-->
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
+<!--    <ImageView-->
+<!--        android:id="@+id/image_coral_detail"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:src="@drawable/ic_launcher_background"-->
+<!--        android:scaleType="fitXY"-->
+<!--        android:contentDescription="@string/image_coral" />-->
 
-    </com.google.android.material.appbar.AppBarLayout>
+<!--    <com.google.android.material.appbar.MaterialToolbar-->
+<!--        android:id="@+id/mtoolbar_detail"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="?attr/actionBarSize"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        app:navigationIcon="@drawable/ic_back_button"/>-->
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/mcard_detail"
         android:layout_width="match_parent"
         android:layout_height="612dp"
         app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="@color/backgroundColor"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="418dp">
+        app:behavior_peekHeight="400dp">
 
-        <ImageView
-            android:id="@+id/image_expander_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@string/expander_indicator"
-            android:src="@drawable/ic_expander_indicator" />
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/mappbar"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/backgroundColor"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/mtoolbar_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/backgroundColor" />
+
+                <ImageView
+                    android:id="@+id/image_expander_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="@string/expander_indicator"
+                    android:src="@drawable/ic_expander_indicator" />
+
+                <TextView
+                    android:id="@+id/text_coral_full_name_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginStart="24dp"
+                    android:text="@string/acropora_brueggemanni"
+                    android:textAppearance="@style/TextAppearance.Coral_ID.Toolbar" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -59,42 +95,34 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp">
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <TextView
-                    android:id="@+id/text_coral_full_name_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:text="@string/acropora_brueggemanni"
-                    android:textAppearance="@style/TextAppearance.Coral_ID.Toolbar"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+
 
                 <TextView
                     android:id="@+id/text_coral_inventor_and_year"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="72dp"
+                    android:layout_marginStart="24dp"
                     android:fontFamily="@font/nunito_regular"
                     android:text="@string/brook_1983"
                     android:textColor="@color/secondaryTextColor"
                     android:textSize="13sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_coral_full_name_detail" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_coral_family"
-                    android:layout_width="160dp"
+                    android:layout_width="0dp"
                     android:layout_height="72dp"
+                    android:layout_marginStart="24dp"
                     android:layout_marginTop="32dp"
+                    android:layout_marginEnd="8dp"
                     app:cardBackgroundColor="@color/primaryColor"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="0dp"
-                    app:layout_constraintEnd_toStartOf="@+id/card_coral_genus"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_coral_inventor_and_year" />
 
@@ -135,15 +163,16 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_coral_genus"
-                    android:layout_width="160dp"
+                    android:layout_width="0dp"
                     android:layout_height="72dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="32dp"
+                    android:layout_marginEnd="24dp"
                     app:cardBackgroundColor="@color/secondaryColor"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/card_coral_family"
+                    app:layout_constraintStart_toStartOf="@+id/guideline2"
                     app:layout_constraintTop_toBottomOf="@+id/text_coral_inventor_and_year" />
 
                 <ImageView
@@ -180,6 +209,27 @@
                     android:textColor="@color/secondaryTextColor"
                     app:layout_constraintStart_toStartOf="@+id/card_coral_genus"
                     app:layout_constraintTop_toBottomOf="@id/text_coral_genus_lable" />
+
+                <TextView
+                    android:id="@+id/text_dummy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginEnd="24dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/dummy_text"
+                    android:textColor="@color/secondaryTextColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/card_coral_family" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
