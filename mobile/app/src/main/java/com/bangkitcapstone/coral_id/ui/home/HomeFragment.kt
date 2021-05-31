@@ -36,6 +36,10 @@ class HomeFragment : Fragment() {
         binding?.button?.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_scanFragment)
         }
+
+        binding?.button2?.setOnClickListener {
+            it.findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
+        }
     }
 
     override fun onDestroy() {

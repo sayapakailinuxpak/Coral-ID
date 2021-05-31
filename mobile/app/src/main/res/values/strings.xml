@@ -12,6 +12,7 @@
     <string name="pseudosiderastrea">Pseudosiderastrea</string>
     <string name="image_dna">Image DNA</string>
     <string name="genus">Genus</string>
+    <string name="discoverer_and_year">%1$s, %2$s</string>
     <string name="brook_1983">BROOK, 1983</string>
     <string name="scan_coral">Scan Coral</string>
     <string name="camera_suggestion">Place camera to object and keep steady</string>
@@ -24,5 +25,12 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="process_confirm">Process this image ?</string>
-    <string name="dummy_text">Koloni dengan percabangan arboresen, cabang dengan satu atau dua axial koralit. Percabangan tidak teratur dan mendekati kearah ujung mem- bengkak, berbenjol-benjol tidak teratur. Radial ko- ralit membulat tersebar rapat tidak beraturan, memiliki warna coklat muda dan mendekati ujung memutih. Koloni dengan percabangan arboresen, cabang dengan satu atau dua axial koralit. Percabangan tidak teratur dan mendekati kearah ujung mem- bengkak, berbenjol-benjol tidak teratur. Radial ko- ralit membulat tersebar rapat tidak beraturan, memiliki warna coklat muda dan mendekati ujung memutih. Koloni dengan percabangan arboresen, cabang dengan satu atau dua axial koralit. Percabangan tidak teratur dan mendekati kearah ujung mem- bengkak, berbenjol-benjol tidak teratur. Radial ko- ralit membulat tersebar rapat tidak beraturan, memiliki warna coklat muda dan mendekati ujung memutih. Koloni dengan percabangan arboresen, cabang dengan satu atau dua axial koralit. Percabangan tidak teratur dan mendekati kearah ujung mem- bengkak, berbenjol-benjol tidak teratur. Radial ko- ralit membulat tersebar rapat tidak beraturan, memiliki warna coklat muda dan mendekati ujung memutih</string>
+    <string name="dummy_text">Koloni dengan percabangan arboresen, cabang dengan satu atau dua axial koralit. Percabangan tidak teratur dan mendekati kearah ujung membengkak, berbenjol-benjol tidak teratur. Radial koralit membulat tersebar rapat tidak beraturan, meak, berbenjol-benjol tidak teratur. Radial ko- ralit membulat tersebar rapat tidak beraturan, memiliki warna coklat muda dan mendekati ujung memutih. Koloni dengan percabangan arboresen, cabang dengan satu atau dua axial koralit. Percabangan tidak teratur dan mendekati kearah ujung mem- bengkak, berbenjol-benjol tidak teratur. Radial ko- ralit membulat tersebar rapat tidak beraturan, memiliki warna coklat muda dan mendekati ujung memutih</string>
+    <string name="brook">BROOK</string>
+    <string name="karakteristik_amp_warna"><![CDATA[Karakteristik & Warna]]></string>
+    <string name="koloni_dengan_percabangan_arboresen_cabang_dengan_satu_atau_dua_axial_koralit_percabangan_tidak_teratur_dan_mendekati_kearah_ujung_membengkak_berbenjol_benjol_tidak_teratur_radial_koralit_membulat_tersebar_rapat_tidak_beraturan_memiliki_warna_coklat_muda_dan_mendekati_ujung_memutih">Koloni dengan percabangan arboresen, cabang dengan satu atau dua axial koralit. Percabangan tidak teratur dan mendekati kearah ujung membengkak, berbenjol-benjol tidak teratur. Radial koralit membulat tersebar rapat tidak beraturan, memiliki warna coklat muda dan mendekati ujung memutih</string>
+    <string name="jenis_yang_mirip">Jenis Yang Mirip</string>
+    <string name="jenis_ini_mudah_dibedakan_dari_yang_lain_dengan_ciri_khas_adanya_benjolan_benjolan_diujung_dari_percabangan_yang_kadang_kadang_terdiri_dari_dua_axial_koralit">Jenis ini mudah dibedakan dari yang lain dengan ciri khas adanya benjolan-benjolan diujung dari percabangan yang kadang-kadang terdiri dari dua axial koralit.</string>
+    <string name="tersebar_di_seluruh_perairan_indonesia_jenis_ini_sangat_umum_dijumpai_di_daerah_tubir">Tersebar di seluruh perairan Indonesia, jenis ini sangat umum dijumpai di daerah tubir.</string>
+    <string name="distribusi">Distribusi</string>
 </resources>

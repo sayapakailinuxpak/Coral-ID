@@ -29,4 +29,14 @@
         <item name="fontFamily">@font/poppins_regular</item>
         <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
+
+    <style name="TextAppearance.Coral_ID.Description.Label" parent="TextAppearance.Coral_ID.Toolbar">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.Coral_ID.Description.Content" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/nunito_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
+    </style>
 </resources>
