@@ -2,16 +2,17 @@ package com.bangkitcapstone.coral_id.ui.slider
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bangkitcapstone.coral_id.data.IntroSlide
+import com.bangkitcapstone.coral_id.data.DataSlider
 import com.bangkitcapstone.coral_id.databinding.SlideItemContainerBinding
 import com.bumptech.glide.Glide
 
-class SlideAdapter(private val introSlide: List<IntroSlide>): RecyclerView.Adapter<SlideAdapter.SlideViewHolder>() {
+class SlideAdapter(private val introSlide: List<DataSlider>) :
+    RecyclerView.Adapter<SlideAdapter.SlideViewHolder>() {
 
-    inner class SlideViewHolder(private val binding: SlideItemContainerBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(introSlide: IntroSlide) {
+    inner class SlideViewHolder(private val binding: SlideItemContainerBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(introSlide: DataSlider) {
             with(binding) {
                 textTitle.text = introSlide.title
                 textDesc.text = introSlide.desc

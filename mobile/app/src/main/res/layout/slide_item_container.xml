@@ -5,42 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <ImageView
         android:id="@+id/img_slider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/ic_summer"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp" />
+        android:layout_marginBottom="64dp"
+        android:contentDescription="@string/illustration"
+        app:layout_constraintBottom_toTopOf="@+id/text_title"
+        tools:layout_editor_absoluteX="16dp"
+        tools:src="@drawable/ic_summer" />
 
     <TextView
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="144dp"
         android:text="@string/title_text"
         android:textColor="@color/secondaryTextColor"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="@+id/img_slider"
-        app:layout_constraintStart_toStartOf="@+id/img_slider"
-        app:layout_constraintTop_toBottomOf="@+id/img_slider" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_desc" />
 
     <TextView
         android:id="@+id/text_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/desc_text"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_title" />
+        android:gravity="center"
+        android:text="@string/desc_text"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/text_title"
+        tools:layout_editor_absoluteX="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

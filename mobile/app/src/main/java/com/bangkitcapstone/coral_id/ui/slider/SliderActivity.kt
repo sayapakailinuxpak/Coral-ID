@@ -15,7 +15,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.databinding.ActivitySliderBinding
 import com.bangkitcapstone.coral_id.ui.home.HomeActivity
-import com.bangkitcapstone.coral_id.utils.DataSlide
+import com.bangkitcapstone.coral_id.utils.DataDummy
 
 class SliderActivity : AppCompatActivity() {
 
@@ -35,12 +35,12 @@ class SliderActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.viewPager2.adapter = DataSlide.slideAdapter
+        binding.viewPager2.adapter = DataDummy.slideAdapter
         setIndicator()
         setCurrentIndicator(0)
         binding.viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                if (position < DataSlide.slideAdapter.itemCount - 1) {
+                if (position < DataDummy.slideAdapter.itemCount - 1) {
                     binding.btnSkip.text = "Skip"
                 } else {
                     binding.btnSkip.text = "Done"
@@ -64,7 +64,7 @@ class SliderActivity : AppCompatActivity() {
     }
 
     private fun setIndicator() {
-        val indicators = arrayOfNulls<ImageView>(DataSlide.slideAdapter.itemCount)
+        val indicators = arrayOfNulls<ImageView>(DataDummy.slideAdapter.itemCount)
         val layoutParams: LinearLayout.LayoutParams =
             LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
         layoutParams.setMargins(8, 0, 8, 0)
