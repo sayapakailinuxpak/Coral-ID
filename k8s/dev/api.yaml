@@ -26,3 +26,14 @@ spec:
         command: ["python3", "manage.py", "runserver", "0.0.0.0:80"]
         ports:
         - containerPort: 80
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.17
+        command:
+          - "/cloud_sql_proxy"
+          - "-instances=coral-id:asia-southeast2:coral-database=tcp:3306"
+        securityContext:
+          runAsNonRoot: False
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1"

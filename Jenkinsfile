@@ -9,7 +9,6 @@ pipeline {
     IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
     JENKINS_CRED = "${PROJECT}"
   }
-
   agent  {
     kubernetes {
         label 'cloud-builders'
@@ -39,6 +38,12 @@ pipeline {
     stage('Build and push image with Container Builder') {
       steps {
         container('gcloud') {
+          sh "sed -i.bak 's|APP-SECRET-KEY|'\$(gcloud secrets versions access latest --secret=SECRET_KEY)'|' ./api/app/settings.py"
+          sh "sed -i.bak 's|YOUR-CONNECTION-NAME|'\$(gcloud secrets versions access latest --secret=CONNECTION_NAME)'|' ./api/app/settings.py"
+          sh "sed -i.bak 's|YOUR-USERNAME|'\$(gcloud secrets versions access latest --secret=SQL-USERNAME)'|' ./api/app/settings.py"
+          sh "sed -i.bak 's|YOUR-PASSWORD|'\$(gcloud secrets versions access latest --secret=SQL-PASSWORD)'|' ./api/app/settings.py"
+          sh "sed -i.bak 's|YOUR-DATABASE|'\$(gcloud secrets versions access latest --secret=SQL-DATABASE)'|' ./api/app/settings.py"
+
           sh "PYTHONUNBUFFERED=1 gcloud builds submit --timeout=15m -t ${IMAGE_TAG} ."
         }
       }

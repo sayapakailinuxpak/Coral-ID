@@ -138,4 +138,4 @@ dmypy.json
 cython_debug/
 
 # Custom Model
-/model
+model.h5

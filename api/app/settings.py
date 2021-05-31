@@ -28,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "INISECRETKEYJANGANDIAMBIL"
+SECRET_KEY = "APP-SECRET-KEY"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,7 +37,6 @@ ALLOWED_HOSTS = ["0.0.0.0","127.0.0.1",
                 "34.101.77.146", # Server Development
                 "34.101.233.175", # Server Production
                 ]
-
 
 # Application definition
 
@@ -92,6 +91,23 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# If using database from mysql server
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'HOST': 'YOUR-CONNECTION-NAME',
+#         'USER': 'YOUR-USERNAME',
+#         'PASSWORD': 'YOUR-PASSWORD',
+#         'NAME': 'YOUR-DATABASE',
+#     }
+# }
+
+bucketName = 'coral-dataset'
+bucketFolder = './'
+storage_client = storage.Client()
+bucket = storage_client.get_bucket(bucketName)
+download_file(bucketName, bucketFolder, "./", "db.sqlite3")
 
 
 # Password validation

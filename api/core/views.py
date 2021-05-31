@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from django.core.files.storage import default_storage
 from django.conf import settings
 import uuid
+import subprocess
 
 from core import serializers, predictions
 from core.models import Coral, Species
@@ -24,7 +25,7 @@ class CallModel(views.APIView):
             unique_filename = str(uuid.uuid4()) + f'.{extension}'
 
             file_name = default_storage.save(
-                unique_filename, request.FILES['image'])
+                f"./{unique_filename}", request.FILES['image'])
             file_url = default_storage.url(file_name)
             img_tensor = predictions.load_image_from_path(file_url)
             prediction = settings.H5_MODEL.predict(img_tensor)[0]
@@ -35,7 +36,6 @@ class CallModel(views.APIView):
             return Response(payload, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class CoralViewSet(viewsets.GenericViewSet,
                    mixins.ListModelMixin,
