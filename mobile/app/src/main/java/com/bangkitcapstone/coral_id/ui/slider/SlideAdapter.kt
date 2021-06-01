@@ -3,7 +3,7 @@ package com.bangkitcapstone.coral_id.ui.slider
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bangkitcapstone.coral_id.data.DataSlider
+import com.bangkitcapstone.coral_id.data.model.DataSlider
 import com.bangkitcapstone.coral_id.databinding.SlideItemContainerBinding
 import com.bumptech.glide.Glide
 
