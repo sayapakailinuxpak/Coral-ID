@@ -13,7 +13,7 @@ class CoralSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coral
         fields = ('id', 'coral_genus', 'coral_family', 'discoverer', 'year_discovered',
-                  'characteristic', 'kind_of_look_alike', 'distribution', 'coral_species')
+                  'characteristic', 'kind_of_look_alike', 'distribution', 'coral_species', 'coral_type', 'image_path')
         read_only_fields = ('id',)
 
 

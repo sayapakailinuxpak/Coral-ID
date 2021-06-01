@@ -11,6 +11,7 @@ class Coral(models.Model):
     kind_of_look_alike = models.CharField(max_length=1024)
     distribution = models.CharField(max_length=1024)
     coral_species = models.ForeignKey('Species', on_delete=models.CASCADE)
+    coral_type = models.CharField(max_length=255)
     image_path = models.CharField(max_length=255)
 
 

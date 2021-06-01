@@ -1,9 +1,10 @@
+import uuid
+import operator
+import subprocess
 from rest_framework import views, status, viewsets, mixins
 from rest_framework.response import Response
 from django.core.files.storage import default_storage
 from django.conf import settings
-import uuid
-import subprocess
 
 from core import serializers, predictions
 from core.models import Coral, Species
@@ -25,14 +26,21 @@ class CallModel(views.APIView):
             unique_filename = str(uuid.uuid4()) + f'.{extension}'
 
             file_name = default_storage.save(
-                f"./{unique_filename}", request.FILES['image'])
+                f"/media/{unique_filename}", request.FILES['image'])
             file_url = default_storage.url(file_name)
             img_tensor = predictions.load_image_from_path(file_url)
             prediction = settings.H5_MODEL.predict(img_tensor)[0]
             default_storage.delete(file_name)
 
-            payload = {'image': request.FILES['image'].name, 'prediction': {
-                'dogs': prediction, 'cats': 1 - prediction}}
+            coral_predictions = {
+                'ACER': prediction[0], 'APAL': prediction[1],
+                'CNAT': prediction[2], 'MALC': prediction[3],
+                'MCAV': prediction[4], 'MMEA': prediction[5],
+                'SSID': prediction[6],
+            }
+
+            calculated_prediction = max(coral_predictions.items(), key=operator.itemgetter(1))[0]
+            payload = {'image': request.FILES['image'].name, 'prediction': coral_predictions, 'calculated_prediction': calculated_prediction}
             return Response(payload, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

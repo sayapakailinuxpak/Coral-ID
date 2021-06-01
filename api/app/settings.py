@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from tensorflow.keras.models import load_model
-from google.cloud import storage
+import rest_framework
+# from google.cloud import storage
 from decouple import config
 
 def download_file(bucketName, bucketFolder, localFolder, fileName):
@@ -31,11 +32,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "APP-SECRET-KEY"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["0.0.0.0","127.0.0.1",
                 "34.101.77.146", # Server Development
                 "34.101.233.175", # Server Production
+                '*'
                 ]
 
 # Application definition
@@ -103,11 +105,11 @@ DATABASES = {
 #     }
 # }
 
-bucketName = 'coral-dataset'
-bucketFolder = './'
-storage_client = storage.Client()
-bucket = storage_client.get_bucket(bucketName)
-download_file(bucketName, bucketFolder, "./", "db.sqlite3")
+# bucketName = 'coral-dataset'
+# bucketFolder = './'
+# storage_client = storage.Client()
+# bucket = storage_client.get_bucket(bucketName)
+# download_file(bucketName, bucketFolder, "./", "db.sqlite3")
 
 
 # Password validation
@@ -147,14 +149,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = '/media/'
 
 # Machine Learning Model
 
 # Pull Machine Learning Model from GCS
-bucketName = 'coral-dataset'
-bucketFolder = './'
-storage_client = storage.Client()
-bucket = storage_client.get_bucket(bucketName)
-download_file(bucketName, bucketFolder, "./", "model.h5")    
+# bucketName = 'coral-dataset'
+# bucketFolder = './'
+# storage_client = storage.Client()
+# bucket = storage_client.get_bucket(bucketName)
+# download_file(bucketName, bucketFolder, "./", "model.h5")    
 
 H5_MODEL = load_model("./model.h5")
+
+REST_FRAMEWORK = {
+ 'DEFAULT_RENDERER_CLASSES': (
+     'rest_framework.renderers.JSONRenderer',
+ )
+}
