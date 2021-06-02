@@ -7,6 +7,12 @@ data class CoralsResponse(
 	@field:SerializedName("id")
 	val id: Int,
 
+	@field:SerializedName("full_name")
+	val fullName: String,
+
+	@field:SerializedName("full_name_abbreviation")
+	val fullNameAbbreviation: String,
+
 	@field:SerializedName("coral_genus")
 	val coralGenus: String,
 
@@ -28,6 +34,9 @@ data class CoralsResponse(
 	@field:SerializedName("distribution")
 	val distribution: String,
 
-	@field:SerializedName("coral_species")
-	val coralSpecies: Int
+	@field:SerializedName("coral_type")
+	val coralType: String,
+
+	@field:SerializedName("image_path")
+	val imagePath: String
 )

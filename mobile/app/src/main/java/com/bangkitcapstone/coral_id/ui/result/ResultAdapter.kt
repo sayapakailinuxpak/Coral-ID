@@ -4,34 +4,36 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkitcapstone.coral_id.R
-import com.bangkitcapstone.coral_id.data.source.remote.response.SpeciesResponse
+import com.bangkitcapstone.coral_id.data.source.remote.response.PredictionResponse
 import com.bangkitcapstone.coral_id.databinding.ItemResultBinding
-import com.bangkitcapstone.coral_id.utils.SpeciesCallback
+import com.bangkitcapstone.coral_id.utils.PredictionCallback
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class ResultAdapter(private val callback: SpeciesCallback) : RecyclerView.Adapter<ResultAdapter.FollowViewHolder>() {
+class ResultAdapter(private val callback: PredictionCallback) :
+    RecyclerView.Adapter<ResultAdapter.FollowViewHolder>() {
 
-    private val list = ArrayList<SpeciesResponse>()
+    private val list = ArrayList<PredictionResponse>()
 
-    fun setList(corals: List<SpeciesResponse>) {
-        list.clear()
-        list.addAll(corals)
+    fun setList(corals: List<PredictionResponse>?) {
+        if (corals == null) return
+        this.list.clear()
+        this.list.addAll(corals)
         notifyDataSetChanged()
     }
 
     inner class FollowViewHolder(private val binding: ItemResultBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(species: SpeciesResponse) {
+        fun bind(coral: PredictionResponse) {
             binding.apply {
-                binding.textCoralFullNameResult.text = species.name
-                binding.textCoralType.text = species.id.toString()
+                binding.textCoralFullNameResult.text = coral.fullName
+                binding.textCoralType.text = coral.coralType
                 Glide.with(itemView.context)
                     .load(R.drawable.coral_image)
                     .apply(RequestOptions().override(60, 60))
                     .into(binding.imageCoralResult)
-                itemView.setOnClickListener{
-                    callback.onItemClicked(species)
+                itemView.setOnClickListener {
+                    callback.onItemClicked(coral)
                 }
             }
         }

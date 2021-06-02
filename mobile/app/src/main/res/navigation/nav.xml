@@ -23,7 +23,8 @@
         tools:layout="@layout/fragment_scan" >
         <action
             android:id="@+id/action_scanFragment_to_resultFragment"
-            app:destination="@id/resultFragment" />
+            app:destination="@id/resultFragment">
+        </action>
     </fragment>
     <fragment
         android:id="@+id/resultFragment"

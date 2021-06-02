@@ -17,6 +17,7 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/image_coral_detail"
                 android:layout_width="match_parent"
                 android:layout_height="296dp"
                 android:src="@drawable/coral_image"

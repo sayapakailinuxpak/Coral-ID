@@ -1,11 +1,12 @@
 package com.bangkitcapstone.coral_id.ui.scan
 
 import android.Manifest
+import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,11 +19,15 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.databinding.FragmentScanBinding
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -35,7 +40,8 @@ class ScanFragment : Fragment(), View.OnClickListener {
     private var _binding: FragmentScanBinding? = null
     private val binding get() = _binding
     private var flash = false
-    private lateinit var imageFile: Uri
+    private var imageFile: Uri? = null
+    private var isFromStorage = false
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
@@ -81,8 +87,9 @@ class ScanFragment : Fragment(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == SELECT_SUCCESS_CODE && requestCode == SELECT_PICTURE_CODE) {
             Toast.makeText(context, "Capture success", Toast.LENGTH_SHORT).show()
-            Log.d(TAG, data?.data.toString())
-            findNavController().navigate(R.id.action_scanFragment_to_resultFragment)
+            imageFile = data?.data
+            isFromStorage = true
+            binding?.imagePreview?.setImageURI(imageFile)
             showConfirmation(true)
         }
     }
@@ -112,18 +119,23 @@ class ScanFragment : Fragment(), View.OnClickListener {
                 takePhoto()
             }
             R.id.btn_storage -> {
-                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI).also {
+                Intent(Intent.ACTION_GET_CONTENT).also {
                     it.setType("image/*")
                     startActivityForResult(it, SELECT_PICTURE_CODE)
                 }
             }
             R.id.btn_confirm_no -> {
                 showConfirmation(false)
-                val deleted: Boolean = File(imageFile.toString().replace("file://", "")).delete()
-                Log.d(TAG, "onClick: $deleted")
+                if (!isFromStorage) {
+                    if (imageFile != null) {
+                        File(imageFile?.path.toString()).delete()
+                    }
+                }
             }
             R.id.btn_confirm_yes -> {
-                findNavController().navigate(R.id.action_scanFragment_to_resultFragment)
+                val realPath = createCopyAndReturnRealPath(requireContext(), imageFile!!)
+                val bundle = bundleOf("uri" to realPath.toString())
+                findNavController().navigate(R.id.action_scanFragment_to_resultFragment, bundle)
             }
         }
     }
@@ -162,16 +174,15 @@ class ScanFragment : Fragment(), View.OnClickListener {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     Toast.makeText(context, "Capture Success", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "Capture Success: $savedUri")
                     binding?.imagePreview?.setImageURI(savedUri)
                     imageFile = savedUri
+                    isFromStorage = false
                     showConfirmation(true)
                 }
 
                 override fun onError(e: ImageCaptureException) {
                     Log.d(TAG, "Capture failed: ${e.message}", e)
                 }
-
             }
         )
     }
@@ -190,8 +201,6 @@ class ScanFragment : Fragment(), View.OnClickListener {
 
             imageCapture = ImageCapture.Builder()
                 .build()
-            // check flash status
-            Log.d(TAG, if (flash) "Flash on" else "Flash off")
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
@@ -217,6 +226,29 @@ class ScanFragment : Fragment(), View.OnClickListener {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
         }
         return if (mediaDir != null && mediaDir.exists()) mediaDir else requireActivity().filesDir
+    }
+
+    fun createCopyAndReturnRealPath(
+        context: Context, uri: Uri
+    ): String? {
+        val contentResolver: ContentResolver = context.getContentResolver() ?: return null
+
+        // Create file path inside app's data dir
+        val filePath: String = (context.getApplicationInfo().dataDir.toString() + File.separator
+                + System.currentTimeMillis())
+        val file = File(filePath)
+        try {
+            val inputStream = contentResolver.openInputStream(uri) ?: return null
+            val outputStream: OutputStream = FileOutputStream(file)
+            val buf = ByteArray(1024)
+            var len: Int
+            while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+            outputStream.close()
+            inputStream.close()
+        } catch (ignore: IOException) {
+            return null
+        }
+        return file.absolutePath
     }
 
     private fun showConfirmation(state: Boolean) {

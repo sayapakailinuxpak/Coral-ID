@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bangkitcapstone.coral_id.data.source.CoralRepository
 import com.bangkitcapstone.coral_id.di.Injection
+import com.bangkitcapstone.coral_id.ui.detail.DetailViewModel
 import com.bangkitcapstone.coral_id.ui.result.ResultViewModel
 
 class ViewModelFactory private constructor(private val mCoralRepository: CoralRepository) :
@@ -24,6 +25,9 @@ class ViewModelFactory private constructor(private val mCoralRepository: CoralRe
         return when {
             modelClass.isAssignableFrom(ResultViewModel::class.java) -> {
                 ResultViewModel(mCoralRepository) as T
+            }
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
+                DetailViewModel(mCoralRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }
