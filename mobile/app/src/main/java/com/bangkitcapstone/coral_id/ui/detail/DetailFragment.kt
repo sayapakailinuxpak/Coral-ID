@@ -6,14 +6,9 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.databinding.FragmentDetailBinding
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 
 class DetailFragment : Fragment() {
     private var  _binding: FragmentDetailBinding? = null
@@ -31,8 +26,10 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
+            mtoolbarDetail.setNavigationOnClickListener {
+                Toast.makeText(activity, "Close detail fragment", Toast.LENGTH_SHORT).show()
+            }
             mappbarSheet.outlineProvider = null
-            
         }
     }
 

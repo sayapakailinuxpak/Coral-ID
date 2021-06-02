@@ -38,4 +38,5 @@
     <string name="title_text">Title text</string>
     <string name="desc_text">Description Text</string>
     <string name="illustration">Illustration</string>
+    <string name="analyzing">Analyzing...</string>
 </resources>

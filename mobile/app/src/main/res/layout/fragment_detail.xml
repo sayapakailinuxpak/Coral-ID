@@ -24,6 +24,7 @@
                 tools:ignore="contentDescription"/>
 
             <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/mtoolbar_detail"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@android:color/transparent"
@@ -58,7 +59,7 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/mtoolbar_detail"
+                    android:id="@+id/mtoolbar_detail_content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/backgroundColor" />
