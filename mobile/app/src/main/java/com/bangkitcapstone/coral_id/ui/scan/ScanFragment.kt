@@ -7,10 +7,17 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+<<<<<<< HEAD
+=======
+import android.os.Handler
+import android.os.Looper
+import android.provider.MediaStore
+>>>>>>> 87cbbc3052dda20dd09e6000e0f1ebfef09f2c7f
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -24,6 +31,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.databinding.FragmentScanBinding
+import com.bangkitcapstone.coral_id.ui.scan.process_ml.LoadingModalBottomSheetFragment
+import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -32,9 +41,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlin.concurrent.thread
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.coroutineContext
 
 
-class ScanFragment : Fragment(), View.OnClickListener {
+class ScanFragment : Fragment(), View.OnClickListener{
 
     private var imageCapture: ImageCapture? = null
     private var _binding: FragmentScanBinding? = null
@@ -57,6 +69,7 @@ class ScanFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         if (allPermissionsGranted()) {
             startCamera()
         } else {
@@ -70,6 +83,10 @@ class ScanFragment : Fragment(), View.OnClickListener {
         binding?.apply {
             mtoolbarScan.setNavigationOnClickListener {
                 Toast.makeText(activity, "Close scan fragment", Toast.LENGTH_SHORT).show()
+                //xperiment
+                activity?.supportFragmentManager?.let {
+                    LoadingModalBottomSheetFragment().show(it, LoadingModalBottomSheetFragment.TAG)
+                }
             }
             btnFlash.setOnClickListener(this@ScanFragment)
             btnCapture.setOnClickListener(this@ScanFragment)
@@ -126,11 +143,17 @@ class ScanFragment : Fragment(), View.OnClickListener {
             }
             R.id.btn_confirm_no -> {
                 showConfirmation(false)
+<<<<<<< HEAD
                 if (!isFromStorage) {
                     if (imageFile != null) {
                         File(imageFile?.path.toString()).delete()
                     }
                 }
+=======
+                val deleted: Boolean = File(imageFile.toString().replace("file://", "")).delete()
+                Log.d(TAG, "onClick: $deleted")
+
+>>>>>>> 87cbbc3052dda20dd09e6000e0f1ebfef09f2c7f
             }
             R.id.btn_confirm_yes -> {
                 val realPath = createCopyAndReturnRealPath(requireContext(), imageFile!!)
@@ -285,4 +308,7 @@ class ScanFragment : Fragment(), View.OnClickListener {
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
+
+
+
 }
