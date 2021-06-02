@@ -3,16 +3,18 @@ package com.bangkitcapstone.coral_id.ui.result
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bangkitcapstone.coral_id.data.DataCoral
+import com.bangkitcapstone.coral_id.R
+import com.bangkitcapstone.coral_id.data.source.remote.response.SpeciesResponse
 import com.bangkitcapstone.coral_id.databinding.ItemResultBinding
+import com.bangkitcapstone.coral_id.utils.SpeciesCallback
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class ResultAdapter : RecyclerView.Adapter<ResultAdapter.FollowViewHolder>() {
+class ResultAdapter(private val callback: SpeciesCallback) : RecyclerView.Adapter<ResultAdapter.FollowViewHolder>() {
 
-    private val list = ArrayList<DataCoral>()
+    private val list = ArrayList<SpeciesResponse>()
 
-    fun setList(corals: List<DataCoral>) {
+    fun setList(corals: List<SpeciesResponse>) {
         list.clear()
         list.addAll(corals)
         notifyDataSetChanged()
@@ -20,15 +22,17 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.FollowViewHolder>() {
 
     inner class FollowViewHolder(private val binding: ItemResultBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(coral: DataCoral) {
-
+        fun bind(species: SpeciesResponse) {
             binding.apply {
-                binding.textCoralFullNameResult.text = coral.name
-                binding.textCoralType.text = coral.type
+                binding.textCoralFullNameResult.text = species.name
+                binding.textCoralType.text = species.id.toString()
                 Glide.with(itemView.context)
-                    .load(coral.image)
+                    .load(R.drawable.coral_image)
                     .apply(RequestOptions().override(60, 60))
                     .into(binding.imageCoralResult)
+                itemView.setOnClickListener{
+                    callback.onItemClicked(species)
+                }
             }
         }
     }
