@@ -50,4 +50,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/emoji_not_found"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:lottie_rawRes="@raw/emoji_empty_list"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:visibility="gone"
+        android:layout_gravity="center" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

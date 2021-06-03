@@ -82,6 +82,9 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
+    //Lottie
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
     // okHttp3 Dependency
     implementation "com.squareup.okhttp3:okhttp:$okHttp3_version"
     implementation "com.squareup.okhttp3:okhttp-urlconnection:$okHttp3_version"
