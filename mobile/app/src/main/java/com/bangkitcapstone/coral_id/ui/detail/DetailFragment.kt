@@ -50,8 +50,10 @@ class DetailFragment : Fragment() {
         }
 
         binding?.apply {
+            if (activity != null)
             mtoolbarDetail.setNavigationOnClickListener {
                 Toast.makeText(activity, "Close detail fragment", Toast.LENGTH_SHORT).show()
+                requireActivity().onBackPressed()
             }
             mappbarSheet.outlineProvider = null
         }

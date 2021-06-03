@@ -72,10 +72,6 @@ class ScanFragment : Fragment(), View.OnClickListener{
         binding?.apply {
             mtoolbarScan.setNavigationOnClickListener {
                 Toast.makeText(activity, "Close scan fragment", Toast.LENGTH_SHORT).show()
-                //xperiment
-                activity?.supportFragmentManager?.let {
-
-                }
             }
             btnFlash.setOnClickListener(this@ScanFragment)
             btnCapture.setOnClickListener(this@ScanFragment)
