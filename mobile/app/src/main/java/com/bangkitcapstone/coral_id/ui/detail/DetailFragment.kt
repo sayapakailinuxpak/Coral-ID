@@ -62,6 +62,7 @@ class DetailFragment : Fragment() {
     private fun dataDisplay(coral: CoralsResponse) {
         binding?.let {
             text_coral_full_name_detail.text = coral.fullName
+
         }
     }
 
