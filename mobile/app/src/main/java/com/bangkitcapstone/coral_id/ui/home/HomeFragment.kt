@@ -28,13 +28,15 @@ class HomeFragment : Fragment() {
         /*val listCoral = DataDummy.generateDummyCoral()
         Log.d("Lihat :", listCoral.toString())*/
 
-        binding?.fab?.setOnClickListener {
+        binding?.cardCoralBook?.setOnClickListener {
+            it.findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
+        }
+
+        binding?.cardDetect?.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_scanFragment)
         }
 
-        binding?.button2?.setOnClickListener {
-            it.findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
-        }
+
     }
 
     override fun onDestroy() {

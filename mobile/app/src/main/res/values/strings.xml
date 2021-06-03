@@ -39,6 +39,8 @@
     <string name="desc_text">Description Text</string>
     <string name="illustration">Illustration</string>
     <string name="analyzing">Analyzing...</string>
-    <string name="desc_home">Let\'s explore more Coral</string>
+    <string name="desc_home">Let\'s Explore</string>
     <string name="start_home">Get Started</string>
+    <string name="book">Book</string>
+    <string name="detect">Detect</string>
 </resources>

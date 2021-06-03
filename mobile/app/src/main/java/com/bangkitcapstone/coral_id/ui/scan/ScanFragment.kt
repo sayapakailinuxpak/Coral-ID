@@ -7,14 +7,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -28,7 +24,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.databinding.FragmentScanBinding
-import com.bangkitcapstone.coral_id.ui.scan.process_ml.LoadingModalBottomSheetFragment
 import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileOutputStream
@@ -38,9 +33,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import kotlin.concurrent.thread
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.coroutineContext
 
 
 class ScanFragment : Fragment(), View.OnClickListener{
@@ -82,7 +74,7 @@ class ScanFragment : Fragment(), View.OnClickListener{
                 Toast.makeText(activity, "Close scan fragment", Toast.LENGTH_SHORT).show()
                 //xperiment
                 activity?.supportFragmentManager?.let {
-                    LoadingModalBottomSheetFragment().show(it, LoadingModalBottomSheetFragment.TAG)
+
                 }
             }
             btnFlash.setOnClickListener(this@ScanFragment)
