@@ -4,7 +4,9 @@ FROM python:3.9
 # its mean doesn't buffer in STD input output
 # just send output straight out to the terminal
 # (it makes easier where interect with docker container)
-# ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED 1
+ENV PROD_SERVER True
+ENV GCP_PRODUCTION True
 
 RUN mkdir /workspace
 WORKDIR /workspace

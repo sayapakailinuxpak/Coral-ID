@@ -18,10 +18,6 @@ spec:
       containers:
       - name: coral-id-api
         image: gcr.io/cloud-solutions-images/coral-id:1.0.0
-        resources:
-          limits:
-            memory: "500Mi"
-            cpu: "100m"
         imagePullPolicy: Always
         command: ["python3", "manage.py", "runserver", "0.0.0.0:80"]
         ports:
