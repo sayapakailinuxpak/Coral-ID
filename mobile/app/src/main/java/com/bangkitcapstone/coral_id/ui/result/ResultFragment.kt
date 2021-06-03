@@ -46,9 +46,10 @@ class ResultFragment : Fragment(), PredictionCallback {
 
         imageFile = arguments?.getString("uri")
 
+        Log.d("Lihat result", imageFile.toString())
+
         binding.mtoolbarResult.setNavigationOnClickListener {
-            Toast.makeText(activity, "Close result fragment", Toast.LENGTH_SHORT).show()
-            it.findNavController().navigate(R.id.action_resultFragment_to_detailFragment)
+            activity?.onBackPressed()
         }
 
         showLoading(true)
@@ -59,7 +60,6 @@ class ResultFragment : Fragment(), PredictionCallback {
                 factory
             )[ResultViewModel::class.java]
             uploadImage(imageFile)
-            showLoading(false)
         }
     }
 
@@ -74,11 +74,16 @@ class ResultFragment : Fragment(), PredictionCallback {
     private fun showLoading(state: Boolean) {
         binding.apply {
             if (state) {
-                progressBar.visibility = View.VISIBLE
+                cardProcessingMlLoading.visibility = View.VISIBLE
             } else {
-                progressBar.visibility = View.GONE
+                cardProcessingMlLoading.visibility = View.GONE
             }
         }
+    }
+
+    private fun emptyData() {
+        binding.emptyData.visibility = View.VISIBLE
+        binding.cardProcessingMlLoading.visibility = View.GONE
     }
 
     private fun uploadImage(path: String?) {
@@ -87,10 +92,15 @@ class ResultFragment : Fragment(), PredictionCallback {
             val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
             val coralPic = MultipartBody.Part.createFormData("image", file.name, requestFile)
             viewModel.postImageCoral(coralPic).observe(viewLifecycleOwner, {
-                binding.rvResult.adapter.let { adapter ->
-                    when (adapter) {
-                        is ResultAdapter -> adapter.setList(it)
+                if (it.isNullOrEmpty()) {
+                    emptyData()
+                } else {
+                    binding.rvResult.adapter.let { adapter ->
+                        when (adapter) {
+                            is ResultAdapter -> adapter.setList(it)
+                        }
                     }
+                    showLoading(false)
                 }
             })
         }

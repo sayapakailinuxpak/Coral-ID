@@ -71,7 +71,7 @@ class ScanFragment : Fragment(), View.OnClickListener{
 
         binding?.apply {
             mtoolbarScan.setNavigationOnClickListener {
-                Toast.makeText(activity, "Close scan fragment", Toast.LENGTH_SHORT).show()
+                activity?.onBackPressed()
             }
             btnFlash.setOnClickListener(this@ScanFragment)
             btnCapture.setOnClickListener(this@ScanFragment)
@@ -139,8 +139,11 @@ class ScanFragment : Fragment(), View.OnClickListener{
             }
             R.id.btn_confirm_yes -> {
                 val realPath = createCopyAndReturnRealPath(requireContext(), imageFile!!)
-                val bundle = bundleOf("uri" to realPath.toString())
-                findNavController().navigate(R.id.action_scanFragment_to_resultFragment, bundle)
+                val bundle1 = bundleOf("uri" to realPath.toString())
+                Log.d("Lihat pake fungsi", bundle1.toString())
+                val bundle = bundleOf("uri" to imageFile!!.path.toString())
+                Log.d("Lihat pake fungsi2", bundle.toString())
+                findNavController().navigate(R.id.action_scanFragment_to_resultFragment, bundle1)
             }
         }
     }
@@ -238,10 +241,9 @@ class ScanFragment : Fragment(), View.OnClickListener{
     ): String? {
         val contentResolver: ContentResolver = context.getContentResolver() ?: return null
 
-        // Create file path inside app's data dir
-        val filePath: String = (context.getApplicationInfo().dataDir.toString() + File.separator
-                + System.currentTimeMillis())
-        val file = File(filePath)
+        val file = File(outputDirectory,
+            SimpleDateFormat(FILENAME_FORMAT, Locale.US)
+                .format(System.currentTimeMillis()) + ".jpg")
         try {
             val inputStream = contentResolver.openInputStream(uri) ?: return null
             val outputStream: OutputStream = FileOutputStream(file)
