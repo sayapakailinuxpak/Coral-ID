@@ -7,12 +7,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-<<<<<<< HEAD
-=======
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
->>>>>>> 87cbbc3052dda20dd09e6000e0f1ebfef09f2c7f
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -143,17 +140,14 @@ class ScanFragment : Fragment(), View.OnClickListener{
             }
             R.id.btn_confirm_no -> {
                 showConfirmation(false)
-<<<<<<< HEAD
                 if (!isFromStorage) {
                     if (imageFile != null) {
                         File(imageFile?.path.toString()).delete()
                     }
                 }
-=======
                 val deleted: Boolean = File(imageFile.toString().replace("file://", "")).delete()
                 Log.d(TAG, "onClick: $deleted")
 
->>>>>>> 87cbbc3052dda20dd09e6000e0f1ebfef09f2c7f
             }
             R.id.btn_confirm_yes -> {
                 val realPath = createCopyAndReturnRealPath(requireContext(), imageFile!!)
