@@ -13,7 +13,9 @@ import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.data.source.remote.response.CoralsResponse
 import com.bangkitcapstone.coral_id.databinding.FragmentDetailBinding
 import com.bangkitcapstone.coral_id.viewmodel.ViewModelFactory
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_detail.*
+import java.util.*
 
 class DetailFragment : Fragment() {
     private var  _binding: FragmentDetailBinding? = null
@@ -60,9 +62,19 @@ class DetailFragment : Fragment() {
     }
 
     private fun dataDisplay(coral: CoralsResponse) {
-        binding?.let {
-            text_coral_full_name_detail.text = coral.fullName
 
+        binding?.apply {
+            Glide.with(this@DetailFragment)
+                .load(coral.imagePath)
+                .into(imageCoralDetail)
+            val discovererAndYear = String.format(Locale.getDefault(), textCoralDiscovererAndYear.text.toString(), coral.discoverer, coral.yearDiscovered)
+            textCoralFullNameDetail.text = coral.fullName
+            textCoralDiscovererAndYear.text = discovererAndYear
+            textCoralFamily.text = coral.coralFamily
+            textCoralGenus.text = coral.coralGenus
+            textCoralCharacteristic.text = coral.characteristic
+            textCoralKindOfLookAlike.text = coral.kindOfLookAlike
+            textCoralDistribution.text = coral.distribution
         }
     }
 
