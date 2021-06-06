@@ -1,17 +1,12 @@
 package com.bangkitcapstone.coral_id.ui.detail
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import android.widget.Toast
-import com.bangkitcapstone.coral_id.R
+import androidx.lifecycle.ViewModelProvider
 import com.bangkitcapstone.coral_id.data.source.local.entity.CoralsEntity
-import com.bangkitcapstone.coral_id.data.source.remote.response.CoralsResponse
 import com.bangkitcapstone.coral_id.databinding.FragmentDetailBinding
 import com.bangkitcapstone.coral_id.viewmodel.ViewModelFactory
 import com.bumptech.glide.Glide
@@ -20,8 +15,9 @@ import kotlinx.android.synthetic.main.fragment_detail.*
 import java.util.*
 import javax.inject.Inject
 
+
 class DetailFragment : DaggerFragment() {
-    private var  _binding: FragmentDetailBinding? = null
+    private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding
 
     private lateinit var viewModel: DetailViewModel
@@ -66,12 +62,16 @@ class DetailFragment : DaggerFragment() {
     }
 
     private fun dataDisplay(coral: CoralsEntity) {
-
         binding?.apply {
             Glide.with(this@DetailFragment)
                 .load(coral.imagePath)
                 .into(imageCoralDetail)
-            val discovererAndYear = String.format(Locale.getDefault(), textCoralDiscovererAndYear.text.toString(), coral.discoverer, coral.yearDiscovered)
+            val discovererAndYear = String.format(
+                Locale.getDefault(),
+                textCoralDiscovererAndYear.text.toString(),
+                coral.discoverer,
+                coral.yearDiscovered
+            )
             textCoralFullNameDetail.text = coral.fullName
             textCoralDiscovererAndYear.text = discovererAndYear
             textCoralFamily.text = coral.coralFamily
