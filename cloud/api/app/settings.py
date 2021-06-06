@@ -12,8 +12,11 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from tensorflow.keras.models import load_model
-from google.cloud import storage
+import rest_framework
 from decouple import config
+
+if os.getenv("GCP_PRODUCTION"):
+    from google.cloud import storage
 
 def download_file(bucketName, bucketFolder, localFolder, fileName):
     """Download file from GCP bucket."""
@@ -23,18 +26,28 @@ def download_file(bucketName, bucketFolder, localFolder, fileName):
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "INISECRETKEYJANGANDIAMBIL"
+SECRET_KEY = "APP-SECRET-KEY"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if os.getenv("PROD_SERVER"):
+    DEBUG = False
+    REST_FRAMEWORK = {
+     'DEFAULT_RENDERER_CLASSES': (
+         'rest_framework.renderers.JSONRenderer',
+     )
+    }
+else:
+    DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0","127.0.0.1"]
-
+ALLOWED_HOSTS = ["0.0.0.0",
+                "127.0.0.1",
+                "34.101.77.146", # Server Development
+                "34.101.233.175", # Server Production
+                '*']
 
 # Application definition
 
@@ -90,6 +103,23 @@ DATABASES = {
     }
 }
 
+if os.getenv("GCP_PRODUCTION_DATABASE"):
+    if os.getenv("GCP_PRODUCTION_DATABASE") == "mysql":
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'HOST': 'YOUR-CONNECTION-NAME',
+                'USER': 'YOUR-USERNAME',
+                'PASSWORD': 'YOUR-PASSWORD',
+                'NAME': 'YOUR-DATABASE',
+            }
+        }
+    else:
+        bucketName = 'coral-dataset'
+        bucketFolder = './'
+        storage_client = storage.Client()
+        bucket = storage_client.get_bucket(bucketName)
+        download_file(bucketName, bucketFolder, "./", "model.h5")
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -128,14 +158,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = '/media/'
 
 # Machine Learning Model
+# Pull Machine Learning Model from GCS
 
-if DEBUG == False:
+if os.getenv("GCP_PRODUCTION"):
     bucketName = 'coral-dataset'
     bucketFolder = './'
     storage_client = storage.Client()
     bucket = storage_client.get_bucket(bucketName)
-    download_file(bucketName, bucketFolder, "./", "model.h5")    
+    download_file(bucketName, bucketFolder, "./", "model.h5")
 
 H5_MODEL = load_model("./model.h5")
