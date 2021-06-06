@@ -2,105 +2,88 @@ package com.bangkitcapstone.coral_id.data.source
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.bangkitcapstone.coral_id.data.source.local.LocalDataSource
+import com.bangkitcapstone.coral_id.data.source.local.entity.CoralsEntity
+import com.bangkitcapstone.coral_id.data.source.local.volocal.Resource
 import com.bangkitcapstone.coral_id.data.source.remote.RemoteCallback
 import com.bangkitcapstone.coral_id.data.source.remote.RemoteDataSource
 import com.bangkitcapstone.coral_id.data.source.remote.response.CoralsResponse
 import com.bangkitcapstone.coral_id.data.source.remote.response.PredictionResponse
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
+import com.bangkitcapstone.coral_id.data.source.remote.voremote.VoApi
 import okhttp3.MultipartBody
+import javax.inject.Inject
 
-class CoralRepository(private val remoteDataSource: RemoteDataSource) : CoralDataSource {
+class CoralRepository @Inject constructor(
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource
+) : CoralDataSource {
+    override fun getAllCorals(): LiveData<Resource<PagedList<CoralsEntity>>> {
+        return object : NetworkBoundResource<PagedList<CoralsEntity>, List<CoralsResponse>>() {
+            public override fun loadFromDB(): LiveData<PagedList<CoralsEntity>> {
+                val config = PagedList.Config.Builder().apply {
+                    setEnablePlaceholders(false)
+                    setInitialLoadSizeHint(4)
+                    setPageSize(4)
+                }.build()
+                return LivePagedListBuilder(localDataSource.getListCorals(), config).build()
+            }
 
-    override fun getAllCorals(): LiveData<List<CoralsResponse>> {
-        val getCorals = MutableLiveData<List<CoralsResponse>>()
-        CoroutineScope(IO).launch {
-            remoteDataSource.getAllCorals(object : RemoteCallback.LoadAllCoralsCallback {
-                override fun onAllCoralsReceived(coralsResponse: List<CoralsResponse>) {
-                    val coralsList = ArrayList<CoralsResponse>()
-                    for (response in coralsResponse) {
-                        val coral = CoralsResponse(
-                            response.id,
-                            response.fullName,
-                            response.fullNameAbbreviation,
-                            response.coralGenus,
-                            response.coralFamily,
-                            response.discoverer,
-                            response.yearDiscovered,
-                            response.characteristic,
-                            response.kindOfLookAlike,
-                            response.distribution,
-                            response.coralType,
-                            response.imagePath
-                        )
-                        coralsList.add(coral)
-                    }
-                    getCorals.postValue(coralsList)
-                }
-            })
-        }
-        return getCorals
-    }
+            override fun shouldFetch(data: PagedList<CoralsEntity>?): Boolean =
+                data == null || data.isEmpty()
 
-    override fun getCoralsById(coralId: Int): LiveData<CoralsResponse> {
-        val getCorals = MutableLiveData<CoralsResponse>()
-        CoroutineScope(IO).launch {
-            remoteDataSource.getCoralsById(coralId, object : RemoteCallback.LoadCoralByIdCallback {
-                override fun onCoralByIdReceived(coralsResponse: CoralsResponse) {
-                    val coral = CoralsResponse(
-                        coralsResponse.id,
-                        coralsResponse.fullName,
-                        coralsResponse.fullNameAbbreviation,
-                        coralsResponse.coralGenus,
-                        coralsResponse.coralFamily,
-                        coralsResponse.discoverer,
-                        coralsResponse.yearDiscovered,
-                        coralsResponse.characteristic,
-                        coralsResponse.kindOfLookAlike,
-                        coralsResponse.distribution,
-                        coralsResponse.coralType,
-                        coralsResponse.imagePath
+
+            public override fun createCall(): LiveData<VoApi<List<CoralsResponse>>> =
+                remoteDataSource.getAllCorals()
+
+            public override fun saveCallResult(data: List<CoralsResponse>) {
+                val coralList = ArrayList<CoralsEntity>()
+                for (response in data) {
+                    val coral = CoralsEntity(
+                        response.id,
+                        response.fullName,
+                        response.fullNameAbbreviation,
+                        response.coralGenus,
+                        response.coralFamily,
+                        response.discoverer,
+                        response.yearDiscovered,
+                        response.characteristic,
+                        response.kindOfLookAlike,
+                        response.distribution,
+                        response.coralType,
+                        response.imagePath
                     )
-                    getCorals.postValue(coral)
+                    coralList.add(coral)
                 }
-            })
-        }
-        return getCorals
+
+                localDataSource.insertCorals(coralList)
+            }
+
+        }.asLiveData()
     }
+
+    override fun getCoralsById(coralId: Int): LiveData<CoralsEntity> =
+        localDataSource.getDetailCoral(coralId)
 
     override fun getPredictionCoral(image: MultipartBody.Part): LiveData<List<PredictionResponse>> {
         val getPrediction = MutableLiveData<List<PredictionResponse>>()
-        CoroutineScope(IO).launch {
-            remoteDataSource.postImageCoral(image, object : RemoteCallback.LoadPredictionCoral {
+        remoteDataSource.postImageCoral(image, object : RemoteCallback.LoadPredictionCoral {
 
-                override fun onredictionCoralReceived(predictionResponse: List<PredictionResponse>) {
-                    val coralsList = ArrayList<PredictionResponse>()
-                    for (response in predictionResponse) {
-                        val coral = PredictionResponse(
-                            response.id,
-                            response.fullName,
-                            response.imagePath,
-                            response.coralType
-                            )
-                        coralsList.add(coral)
-                    }
-                    getPrediction.postValue(coralsList)
+            override fun onredictionCoralReceived(predictionResponse: List<PredictionResponse>) {
+                val coralsList = ArrayList<PredictionResponse>()
+                for (response in predictionResponse) {
+                    val coral = PredictionResponse(
+                        response.id,
+                        response.fullName,
+                        response.imagePath,
+                        response.coralType
+                    )
+                    coralsList.add(coral)
                 }
-            })
-        }
+                getPrediction.postValue(coralsList)
+            }
+        })
         return getPrediction
     }
-
-    companion object {
-        @Volatile
-        private var instance: CoralRepository? = null
-
-        fun getInstance(remoteData: RemoteDataSource): CoralRepository =
-            instance ?: synchronized(this) {
-                CoralRepository(remoteData).apply { instance = this }
-            }
-    }
-
-
 }

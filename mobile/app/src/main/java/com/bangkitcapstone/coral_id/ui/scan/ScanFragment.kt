@@ -19,11 +19,16 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toFile
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.databinding.FragmentScanBinding
+import id.zelory.compressor.Compressor
+import id.zelory.compressor.constraint.*
 import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileOutputStream
@@ -35,13 +40,14 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-class ScanFragment : Fragment(), View.OnClickListener{
+class ScanFragment : Fragment(), View.OnClickListener {
 
     private var imageCapture: ImageCapture? = null
     private var _binding: FragmentScanBinding? = null
     private val binding get() = _binding
     private var flash = false
     private var imageFile: Uri? = null
+    private var realFile: Uri? = null
     private var isFromStorage = false
 
     private lateinit var outputDirectory: File
@@ -89,9 +95,10 @@ class ScanFragment : Fragment(), View.OnClickListener{
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == SELECT_SUCCESS_CODE && requestCode == SELECT_PICTURE_CODE) {
             Toast.makeText(context, "Capture success", Toast.LENGTH_SHORT).show()
-            imageFile = data?.data
             isFromStorage = true
-            binding?.imagePreview?.setImageURI(imageFile)
+            binding?.imagePreview?.setImageURI(data?.data)
+            realFile = data?.data
+            imageFile = createCopyAndReturnRealPath(requireContext(), data?.data!!)?.toUri()
             showConfirmation(true)
         }
     }
@@ -128,38 +135,21 @@ class ScanFragment : Fragment(), View.OnClickListener{
             }
             R.id.btn_confirm_no -> {
                 showConfirmation(false)
-                if (!isFromStorage) {
-                    if (imageFile != null) {
+                if (imageFile != null) {
+                    if (!isFromStorage) {
+                        File(imageFile?.path.toString()).delete()
+                        File(realFile?.path.toString()).delete()
+                    } else {
                         File(imageFile?.path.toString()).delete()
                     }
                 }
-                val deleted: Boolean = File(imageFile.toString().replace("file://", "")).delete()
-                Log.d(TAG, "onClick: $deleted")
-
             }
             R.id.btn_confirm_yes -> {
-                val realPath = createCopyAndReturnRealPath(requireContext(), imageFile!!)
-                val bundle1 = bundleOf("uri" to realPath.toString())
-                Log.d("Lihat pake fungsi", bundle1.toString())
-                val bundle = bundleOf("uri" to imageFile!!.path.toString())
-                Log.d("Lihat pake fungsi2", bundle.toString())
-                findNavController().navigate(R.id.action_scanFragment_to_resultFragment, bundle1)
+                val bundle = bundleOf(
+                    "uri" to imageFile.toString()
+                )
+                findNavController().navigate(R.id.action_scanFragment_to_resultFragment, bundle)
             }
-        }
-    }
-
-    private fun flashConfig(state: Boolean) {
-        with(binding) {
-            if (state) {
-                flash = false
-                this!!.btnFlash.setImageResource(R.drawable.ic_flash_off)
-                Toast.makeText(context, "Turn off flash", Toast.LENGTH_SHORT).show()
-            } else {
-                flash = true
-                this!!.btnFlash.setImageResource(R.drawable.ic_flash_on)
-                Toast.makeText(context, "Turn on flash", Toast.LENGTH_SHORT).show()
-            }
-            startCamera()
         }
     }
 
@@ -183,7 +173,8 @@ class ScanFragment : Fragment(), View.OnClickListener{
                     val savedUri = Uri.fromFile(photoFile)
                     Toast.makeText(context, "Capture Success", Toast.LENGTH_SHORT).show()
                     binding?.imagePreview?.setImageURI(savedUri)
-                    imageFile = savedUri
+                    realFile = savedUri
+                    imageFile = createCopyAndReturnRealPath(requireContext(), savedUri)?.toUri()
                     isFromStorage = false
                     showConfirmation(true)
                 }
@@ -223,6 +214,68 @@ class ScanFragment : Fragment(), View.OnClickListener{
         }, ContextCompat.getMainExecutor(context))
     }
 
+    private fun createCopyAndReturnRealPath(
+        context: Context, uri: Uri
+    ): String? {
+        val contentResolver: ContentResolver = context.getContentResolver() ?: return null
+
+        val file = File(
+            outputDirectory,
+            SimpleDateFormat(FILENAME_FORMAT, Locale.US)
+                .format(System.currentTimeMillis()) + ".jpg"
+        )
+
+        try {
+            val inputStream = contentResolver.openInputStream(uri) ?: return null
+
+            val outputStream: OutputStream = FileOutputStream(file)
+            val buf = ByteArray(1024)
+            var len: Int
+            while (inputStream.read(buf).also {
+                    len = it
+                } > 0) outputStream.write(buf, 0, len)
+            outputStream.close()
+            inputStream.close()
+
+        } catch (ignore: IOException) {
+            return null
+        }
+        if (file.length().div(1024) > MAX_FILE) {
+            imageFile = file.toUri()
+            compresImage()
+        }
+        return file.absolutePath
+    }
+
+    private fun compresImage() {
+        imageFile?.toFile()?.let {
+            lifecycleScope.launch {
+                Log.d("lihat file", imageFile.toString())
+                Compressor.compress(requireContext(), it) {
+                    resolution(600, 600)
+                    quality(100)
+                    size(350000) // 600 x 600
+                    destination(it)
+                }
+            }
+        } ?: Log.e(TAG, "eror compress")
+    }
+
+    private fun flashConfig(state: Boolean) {
+        with(binding) {
+            if (state) {
+                flash = false
+                this!!.btnFlash.setImageResource(R.drawable.ic_flash_off)
+                Toast.makeText(context, "Turn off flash", Toast.LENGTH_SHORT).show()
+            } else {
+                flash = true
+                this!!.btnFlash.setImageResource(R.drawable.ic_flash_on)
+                Toast.makeText(context, "Turn on flash", Toast.LENGTH_SHORT).show()
+            }
+            startCamera()
+        }
+    }
+
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
             requireActivity().baseContext, it
@@ -236,27 +289,6 @@ class ScanFragment : Fragment(), View.OnClickListener{
         return if (mediaDir != null && mediaDir.exists()) mediaDir else requireActivity().filesDir
     }
 
-    fun createCopyAndReturnRealPath(
-        context: Context, uri: Uri
-    ): String? {
-        val contentResolver: ContentResolver = context.getContentResolver() ?: return null
-
-        val file = File(outputDirectory,
-            SimpleDateFormat(FILENAME_FORMAT, Locale.US)
-                .format(System.currentTimeMillis()) + ".jpg")
-        try {
-            val inputStream = contentResolver.openInputStream(uri) ?: return null
-            val outputStream: OutputStream = FileOutputStream(file)
-            val buf = ByteArray(1024)
-            var len: Int
-            while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
-            outputStream.close()
-            inputStream.close()
-        } catch (ignore: IOException) {
-            return null
-        }
-        return file.absolutePath
-    }
 
     private fun showConfirmation(state: Boolean) {
         with(binding!!) {
@@ -290,9 +322,8 @@ class ScanFragment : Fragment(), View.OnClickListener{
         private const val SELECT_PICTURE_CODE = 100
         private const val SELECT_SUCCESS_CODE = -1
         private const val REQUEST_CODE_PERMISSIONS = 10
+        private const val MAX_FILE = 350.000
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
-
-
 
 }

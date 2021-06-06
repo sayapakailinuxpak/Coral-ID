@@ -37,6 +37,7 @@ ext {
     roundedImageView = "2.3.0"
     camerax_version = "1.0.0"
     lottieVersion = '3.7.0'
+    paggingVersion = '2.1.2'
 }
 
 task clean(type: Delete) {

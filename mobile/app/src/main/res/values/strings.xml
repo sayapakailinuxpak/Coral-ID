@@ -44,6 +44,6 @@
     <string name="book">Book</string>
     <string name="detect">Detect</string>
     <string name="corals_book">Coral\'s Book</string>
-    <string name="empty_data">Empty Data</string>
+    <string name="empty_data">Empty Data...</string>
     <string name="processing">Processing...</string>
 </resources>

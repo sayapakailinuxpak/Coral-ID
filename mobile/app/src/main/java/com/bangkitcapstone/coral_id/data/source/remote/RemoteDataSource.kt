@@ -1,51 +1,45 @@
 package com.bangkitcapstone.coral_id.data.source.remote
 
-import android.util.Log
-import com.bangkitcapstone.coral_id.data.source.remote.network.ApiConfig
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.bangkitcapstone.coral_id.data.source.remote.network.ApiService
+import com.bangkitcapstone.coral_id.data.source.remote.response.CoralsResponse
+import com.bangkitcapstone.coral_id.data.source.remote.voremote.VoApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import retrofit2.await
 import java.io.IOException
+import javax.inject.Inject
 
-class RemoteDataSource {
+class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
 
-    suspend fun getAllCorals(callback: RemoteCallback.LoadAllCoralsCallback) {
-        try {
-            ApiConfig.provideApiService().getAllCorals().await().toList().let {
-                callback.onAllCoralsReceived(it)
+    fun getAllCorals(): LiveData<VoApi<List<CoralsResponse>>> {
+        val resultCorals = MutableLiveData<VoApi<List<CoralsResponse>>>()
+        CoroutineScope(IO).launch {
+            try {
+                val response = apiService.getAllCorals().await()
+                resultCorals.postValue(VoApi.success(response))
+            } catch (e: IOException) {
+                e.printStackTrace()
+                resultCorals.postValue(
+                    VoApi.error(e.message, mutableListOf())
+                )
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
         }
-
+        return resultCorals
     }
 
-    suspend fun getCoralsById(coralId: Int, callback: RemoteCallback.LoadCoralByIdCallback) {
-        try {
-            ApiConfig.provideApiService().getCoralById(coralId).await().let {
-                callback.onCoralByIdReceived(it)
+    fun postImageCoral(image: MultipartBody.Part, callback: RemoteCallback.LoadPredictionCoral) {
+        CoroutineScope(IO).launch {
+            try {
+                apiService.postCoralImage(image).await().result.toList().let {
+                    callback.onredictionCoralReceived(it)
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
         }
-    }
-
-    suspend fun postImageCoral(image: MultipartBody.Part, callback: RemoteCallback.LoadPredictionCoral) {
-        try {
-            ApiConfig.provideApiService().postCoralImage(image).await().result.toList().let {
-                callback.onredictionCoralReceived(it)
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
-
-    companion object {
-        @Volatile
-        private var instance: RemoteDataSource? = null
-
-        fun getInstance(): RemoteDataSource =
-            instance ?: synchronized(this) {
-                instance ?: RemoteDataSource()
-            }
     }
 }

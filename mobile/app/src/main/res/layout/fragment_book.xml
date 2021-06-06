@@ -95,32 +95,4 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <RelativeLayout
-        android:id="@+id/empty_data"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/lottie"
-            android:text="@string/empty_data"
-            android:textSize="24sp"
-            android:textColor="@color/secondaryTextColor"
-            android:layout_centerHorizontal="true"/>
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            app:lottie_rawRes="@raw/emoji_empty_list"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center" />
-    </RelativeLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

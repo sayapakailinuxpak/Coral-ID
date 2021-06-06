@@ -1,32 +1,36 @@
 package com.bangkitcapstone.coral_id.ui.book
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkitcapstone.coral_id.R
-import com.bangkitcapstone.coral_id.data.source.remote.response.CoralsResponse
+import com.bangkitcapstone.coral_id.data.source.local.entity.CoralsEntity
+import com.bangkitcapstone.coral_id.data.source.local.volocal.Resource
+import com.bangkitcapstone.coral_id.data.source.local.volocal.Status
 import com.bangkitcapstone.coral_id.databinding.FragmentBookBinding
-import com.bangkitcapstone.coral_id.databinding.FragmentDetailBinding
-import com.bangkitcapstone.coral_id.ui.detail.DetailViewModel
-import com.bangkitcapstone.coral_id.ui.result.ResultAdapter
 import com.bangkitcapstone.coral_id.utils.BookCallback
 import com.bangkitcapstone.coral_id.viewmodel.ViewModelFactory
+import dagger.android.support.DaggerFragment
+import javax.inject.Inject
 
-class BookFragment : Fragment(), BookCallback {
+class BookFragment : DaggerFragment(), BookCallback {
 
     private var _binding: FragmentBookBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: BookViewModel
-    private val factory = ViewModelFactory.getInstance()
+
+    @Inject
+    lateinit var factory: ViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,22 +58,38 @@ class BookFragment : Fragment(), BookCallback {
                 it,
                 factory
             )[BookViewModel::class.java]
-            viewModel.getAllCorals().observe(viewLifecycleOwner, {
-                if (it.isNullOrEmpty()) {
-                    emptyData()
-                } else {
-                    binding.rvCoralsBook.adapter.let { adapter ->
-                        when (adapter) {
-                            is BookAdapter -> adapter.setList(it)
-                        }
-                    }
-                    showLoading(false)
-                }
-            })
+            viewModel.getAllCorals().observe(viewLifecycleOwner, coralObserver)
         }
     }
 
-    override fun onItemClicked(coral: CoralsResponse) {
+    private val coralObserver = Observer<Resource<PagedList<CoralsEntity>>> { corals ->
+        if (corals != null) {
+            when (corals.status) {
+                Status.LOADING -> showLoading(true)
+                Status.SUCCESS -> {
+                    showLoading(false)
+                    binding.rvCoralsBook.adapter.let { adapter ->
+                        when (adapter) {
+                            is BookAdapter -> {
+                                adapter.submitList(corals.data)
+                                adapter.notifyDataSetChanged()
+                            }
+                        }
+                    }
+                }
+                Status.ERROR -> {
+                    showLoading(true)
+                    Toast.makeText(
+                        context,
+                        "Check your internet connection",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+    override fun onItemClicked(coral: CoralsEntity) {
         val bundle = bundleOf("id" to coral.id)
         findNavController().navigate(R.id.action_bookFragment_to_detailFragment, bundle)
     }
@@ -89,10 +109,5 @@ class BookFragment : Fragment(), BookCallback {
                 cardProcessingMlLoading.visibility = View.GONE
             }
         }
-    }
-
-    private fun emptyData() {
-        binding.emptyData.visibility = View.VISIBLE
-        binding.cardProcessingMlLoading.visibility = View.GONE
     }
 }

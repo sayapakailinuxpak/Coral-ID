@@ -30,7 +30,6 @@ class ResultAdapter(private val callback: PredictionCallback) :
                 binding.textCoralType.text = coral.coralType
                 Glide.with(itemView.context)
                     .load(R.drawable.coral_image)
-                    .apply(RequestOptions().override(60, 60))
                     .into(binding.imageCoralResult)
                 itemView.setOnClickListener {
                     callback.onItemClicked(coral)

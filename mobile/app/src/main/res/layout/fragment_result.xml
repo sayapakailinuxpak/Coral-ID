@@ -105,6 +105,7 @@
             android:layout_below="@id/lottie"
             android:text="@string/empty_data"
             android:textSize="24sp"
+            android:textStyle="bold"
             android:textColor="@color/secondaryTextColor"
             android:layout_centerHorizontal="true"/>
 
@@ -112,7 +113,7 @@
             android:id="@+id/lottie"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            app:lottie_rawRes="@raw/emoji_empty_list"
+            app:lottie_rawRes="@raw/no_data"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             android:layout_centerVertical="true"
