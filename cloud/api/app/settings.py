@@ -18,10 +18,12 @@ from decouple import config
 if os.getenv("GCP_PRODUCTION"):
     from google.cloud import storage
 
+
 def download_file(bucketName, bucketFolder, localFolder, fileName):
     """Download file from GCP bucket."""
     blob = bucket.blob(fileName)
     blob.download_to_filename(localFolder + fileName)
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,18 +38,18 @@ SECRET_KEY = "APP-SECRET-KEY"
 if os.getenv("PROD_SERVER"):
     DEBUG = False
     REST_FRAMEWORK = {
-     'DEFAULT_RENDERER_CLASSES': (
-         'rest_framework.renderers.JSONRenderer',
-     )
+        'DEFAULT_RENDERER_CLASSES': (
+            'rest_framework.renderers.JSONRenderer',
+        )
     }
 else:
     DEBUG = True
 
 ALLOWED_HOSTS = ["0.0.0.0",
-                "127.0.0.1",
-                "34.101.77.146", # Server Development
-                "34.101.233.175", # Server Production
-                '*']
+                 "127.0.0.1",
+                 "34.101.77.146",  # Server Development
+                 "34.101.233.175",  # Server Production
+                 '*']
 
 # Application definition
 
@@ -158,7 +160,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = '/media/'
+if os.getenv("PROD_SERVER"):
+    MEDIA_ROOT = '/media/'
 
 # Machine Learning Model
 # Pull Machine Learning Model from GCS
@@ -168,6 +171,6 @@ if os.getenv("GCP_PRODUCTION"):
     bucketFolder = './'
     storage_client = storage.Client()
     bucket = storage_client.get_bucket(bucketName)
-    download_file(bucketName, bucketFolder, "./", "model.h5")
+    download_file(bucketName, bucketFolder, "./", "yolov4.h5")
 
-H5_MODEL = load_model("./model.h5")
+H5_MODEL = load_model("./yolov4.h5")
