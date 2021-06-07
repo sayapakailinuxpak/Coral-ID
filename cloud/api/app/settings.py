@@ -121,7 +121,7 @@ if os.getenv("GCP_PRODUCTION_DATABASE"):
         bucketFolder = './'
         storage_client = storage.Client()
         bucket = storage_client.get_bucket(bucketName)
-        download_file(bucketName, bucketFolder, "./", "model.h5")
+        download_file(bucketName, bucketFolder, "./", "db.sqlite3")
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -160,8 +160,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-if os.getenv("PROD_SERVER"):
-    MEDIA_ROOT = '/media/'
+MEDIA_ROOT = '/media/'
 
 # Machine Learning Model
 # Pull Machine Learning Model from GCS

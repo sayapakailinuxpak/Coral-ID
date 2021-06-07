@@ -35,10 +35,7 @@ class CallModel(views.APIView):
             calculated_predictions = []
             coral_objects = []
 
-            if os.getenv("PROD_SERVER"):
-                path = f"/media/{unique_filename}"
-            else:
-                path = f"./{unique_filename}"
+            path = f"/media/{unique_filename}"
             file_name = default_storage.save(path, request.FILES['image'])
             file_url = default_storage.url(file_name)
             img_tensor = predictions.load_image_from_path(file_url)
