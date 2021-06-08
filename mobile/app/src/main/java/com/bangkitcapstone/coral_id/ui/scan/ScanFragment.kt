@@ -64,10 +64,7 @@ class ScanFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        if (allPermissionsGranted()) {
-            startCamera()
-        } else {
+        if (!allPermissionsGranted()) {
             activity?.let {
                 ActivityCompat.requestPermissions(
                     it, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
@@ -129,7 +126,7 @@ class ScanFragment : Fragment(), View.OnClickListener {
             }
             R.id.btn_storage -> {
                 Intent(Intent.ACTION_GET_CONTENT).also {
-                    it.setType("image/*")
+                    it.type = "image/*"
                     startActivityForResult(it, SELECT_PICTURE_CODE)
                 }
             }
@@ -217,7 +214,7 @@ class ScanFragment : Fragment(), View.OnClickListener {
     private fun createCopyAndReturnRealPath(
         context: Context, uri: Uri
     ): String? {
-        val contentResolver: ContentResolver = context.getContentResolver() ?: return null
+        val contentResolver: ContentResolver = context.contentResolver ?: return null
 
         val file = File(
             outputDirectory,
@@ -250,7 +247,6 @@ class ScanFragment : Fragment(), View.OnClickListener {
     private fun compresImage() {
         imageFile?.toFile()?.let {
             lifecycleScope.launch {
-                Log.d("lihat file", imageFile.toString())
                 Compressor.compress(requireContext(), it) {
                     resolution(600, 600)
                     quality(100)
@@ -277,6 +273,7 @@ class ScanFragment : Fragment(), View.OnClickListener {
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        startCamera()
         ContextCompat.checkSelfPermission(
             requireActivity().baseContext, it
         ) == PackageManager.PERMISSION_GRANTED
@@ -290,23 +287,21 @@ class ScanFragment : Fragment(), View.OnClickListener {
     }
 
 
-    private fun showConfirmation(state: Boolean) {
-        with(binding!!) {
-            if (state) {
-                imagePreview.visibility = View.VISIBLE
-                confirmCard.visibility = View.VISIBLE
-                captureCard.visibility = View.GONE
-                cameraPreview.visibility = View.GONE
-                btnFlash.visibility = View.GONE
-                cameraExecutor.shutdown()
-            } else {
-                imagePreview.visibility = View.GONE
-                confirmCard.visibility = View.GONE
-                captureCard.visibility = View.VISIBLE
-                cameraPreview.visibility = View.VISIBLE
-                btnFlash.visibility = View.VISIBLE
-                startCamera()
-            }
+    private fun showConfirmation(state: Boolean) = with(binding!!) {
+        if (state) {
+            imagePreview.visibility = View.VISIBLE
+            confirmCard.visibility = View.VISIBLE
+            captureCard.visibility = View.GONE
+            cameraPreview.visibility = View.GONE
+            btnFlash.visibility = View.GONE
+            cameraExecutor.shutdown()
+        } else {
+            imagePreview.visibility = View.GONE
+            confirmCard.visibility = View.GONE
+            captureCard.visibility = View.VISIBLE
+            cameraPreview.visibility = View.VISIBLE
+            btnFlash.visibility = View.VISIBLE
+            startCamera()
         }
     }
 

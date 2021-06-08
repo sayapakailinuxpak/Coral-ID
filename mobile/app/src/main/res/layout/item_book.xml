@@ -2,10 +2,10 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/primaryTextColor"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
+    android:background="@color/primaryTextColor"
     app:cardCornerRadius="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,9 +19,9 @@
             android:contentDescription="@string/image_coral"
             android:foreground="@drawable/overlay_gradient"
             android:scaleType="centerCrop"
-            android:src="@drawable/coral_image"
             app:layout_constraintTop_toTopOf="parent"
-            app:riv_corner_radius="16dp" />
+            app:riv_corner_radius="16dp"
+            tools:src="@drawable/coral_image" />
 
         <TextView
             android:id="@+id/txt_book_fullname"
@@ -37,10 +37,10 @@
             android:id="@+id/txt_book_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="16sp"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Acropora Branching (ACB)" />

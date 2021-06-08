@@ -12,7 +12,7 @@ abstract class CoralDb : RoomDatabase() {
     abstract fun dao(): CoralDao
 
     companion object {
-        const val DATABASE_NAME = "coral_db"
+        private const val DATABASE_NAME = "coral_db"
 
         @Volatile
         private var INSTANCE: CoralDb? = null

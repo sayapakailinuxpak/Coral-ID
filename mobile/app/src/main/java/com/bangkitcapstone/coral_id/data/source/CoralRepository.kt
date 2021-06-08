@@ -12,6 +12,7 @@ import com.bangkitcapstone.coral_id.data.source.remote.RemoteDataSource
 import com.bangkitcapstone.coral_id.data.source.remote.response.CoralsResponse
 import com.bangkitcapstone.coral_id.data.source.remote.response.PredictionResponse
 import com.bangkitcapstone.coral_id.data.source.remote.voremote.VoApi
+import com.bangkitcapstone.coral_id.utils.Helper.imageLink
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
@@ -33,7 +34,6 @@ class CoralRepository @Inject constructor(
             override fun shouldFetch(data: PagedList<CoralsEntity>?): Boolean =
                 data == null || data.isEmpty()
 
-
             public override fun createCall(): LiveData<VoApi<List<CoralsResponse>>> =
                 remoteDataSource.getAllCorals()
 
@@ -52,7 +52,7 @@ class CoralRepository @Inject constructor(
                         response.kindOfLookAlike,
                         response.distribution,
                         response.coralType,
-                        response.imagePath
+                        imageLink + response.imagePath
                     )
                     coralList.add(coral)
                 }
@@ -76,7 +76,7 @@ class CoralRepository @Inject constructor(
                     val coral = PredictionResponse(
                         response.id,
                         response.fullName,
-                        response.imagePath,
+                        imageLink + response.imagePath,
                         response.coralType
                     )
                     coralsList.add(coral)

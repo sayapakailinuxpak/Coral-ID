@@ -5,13 +5,10 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.data.source.local.entity.CoralsEntity
-import com.bangkitcapstone.coral_id.data.source.remote.response.CoralsResponse
 import com.bangkitcapstone.coral_id.databinding.ItemBookBinding
 import com.bangkitcapstone.coral_id.utils.BookCallback
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 
 class BookAdapter(private val callback: BookCallback) :
     PagedListAdapter<CoralsEntity, BookAdapter.BookViewHolder>(DIFF_CALLBACK) {
@@ -35,7 +32,7 @@ class BookAdapter(private val callback: BookCallback) :
                 binding.txtBookFullname.text = coral.fullName
                 binding.txtBookType.text = coral.coralType
                 Glide.with(itemView.context)
-                    .load(R.drawable.coral_image)
+                    .load(coral.imagePath)
                     .into(binding.imageBook)
                 itemView.setOnClickListener {
                     callback.onItemClicked(coral)

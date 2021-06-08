@@ -1,7 +1,6 @@
 package com.bangkitcapstone.coral_id.ui.home
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.bangkitcapstone.coral_id.databinding.ActivityHomeBinding
 import dagger.android.support.DaggerAppCompatActivity
 

@@ -4,16 +4,16 @@ import com.google.gson.annotations.SerializedName
 
 data class PredictionResponse(
 
-	@field:SerializedName("id")
-	val id: Int,
+    @field:SerializedName("id")
+    val id: Int,
 
-	@field:SerializedName("full_name")
-	val fullName: String,
+    @field:SerializedName("full_name")
+    val fullName: String,
 
-	@field:SerializedName("image_path")
-	val imagePath: String,
+    @field:SerializedName("image_path")
+    val imagePath: String,
 
-	@field:SerializedName("coral_type")
-	val coralType: String
+    @field:SerializedName("coral_type")
+    val coralType: String
 
 )

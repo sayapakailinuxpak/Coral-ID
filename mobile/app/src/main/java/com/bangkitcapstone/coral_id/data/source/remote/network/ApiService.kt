@@ -11,11 +11,6 @@ interface ApiService {
     @GET("corals")
     fun getAllCorals(): Call<ArrayList<CoralsResponse>>
 
-    @GET("corals/{coral_id}")
-    fun getCoralById(
-        @Path("coral_id") coralId: Int
-    ): Call<CoralsResponse>
-
     @Multipart
     @POST("predict/")
     fun postCoralImage(

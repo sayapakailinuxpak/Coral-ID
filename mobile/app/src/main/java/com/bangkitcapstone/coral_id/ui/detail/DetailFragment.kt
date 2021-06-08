@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.data.source.local.entity.CoralsEntity
 import com.bangkitcapstone.coral_id.databinding.FragmentDetailBinding
 import com.bangkitcapstone.coral_id.viewmodel.ViewModelFactory
@@ -39,15 +40,18 @@ class DetailFragment : DaggerFragment() {
 
         val id = arguments?.getInt("id")
 
-        activity?.let {
+        activity?.let { activity ->
             viewModel = ViewModelProvider(
-                it,
+                activity,
                 factory
             )[DetailViewModel::class.java]
             if (id != null) {
-                viewModel.getCoralById(id).observe(viewLifecycleOwner, {
-                    dataDisplay(it)
-                })
+                viewModel.getCoralById(id).observe(
+                    viewLifecycleOwner,
+                    {
+                        dataDisplay(it)
+                    }
+                )
             }
         }
 
@@ -66,14 +70,12 @@ class DetailFragment : DaggerFragment() {
             Glide.with(this@DetailFragment)
                 .load(coral.imagePath)
                 .into(imageCoralDetail)
-            val discovererAndYear = String.format(
-                Locale.getDefault(),
-                textCoralDiscovererAndYear.text.toString(),
-                coral.discoverer,
-                coral.yearDiscovered
-            )
             textCoralFullNameDetail.text = coral.fullName
-            textCoralDiscovererAndYear.text = discovererAndYear
+            textCoralDiscovererAndYear.text = getString(
+                R.string.discoverer_and_year,
+                coral.discoverer,
+                coral.yearDiscovered.toString()
+            )
             textCoralFamily.text = coral.coralFamily
             textCoralGenus.text = coral.coralGenus
             textCoralCharacteristic.text = coral.characteristic

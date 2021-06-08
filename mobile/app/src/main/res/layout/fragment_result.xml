@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
@@ -18,18 +18,18 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/mtoolbar_result"
+                style="@style/Widget.Coral_ID.Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                app:navigationIcon="@drawable/ic_close"
-                style="@style/Widget.Coral_ID.Toolbar"/>
+                app:navigationIcon="@drawable/ic_close" />
 
             <TextView
                 android:id="@+id/text_toolbar_title"
+                style="@style/TextAppearance.Coral_ID.Toolbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/result"
-                style="@style/TextAppearance.Coral_ID.Toolbar"
-                android:layout_gravity="center_horizontal|center_vertical"/>
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:text="@string/result" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -40,20 +40,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="56dp"
-        android:padding="16dp"
         android:clipToPadding="true"
-        tools:listitem="@layout/item_result"/>
+        android:padding="16dp"
+        tools:listitem="@layout/item_result" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_processing_ml_loading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/modal_bottom_sheet_bg"
-        app:cardElevation="8dp"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        android:visibility="gone"
         app:behavior_hideable="false"
         app:behavior_peekHeight="300dp"
-        android:visibility="gone"
+        app:cardElevation="8dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -70,7 +70,8 @@
                 android:src="@drawable/ic_coffee_person"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/analyzing"/>
 
             <TextView
                 android:id="@+id/text_analyzing_label"
@@ -96,29 +97,29 @@
         android:id="@+id/empty_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lottie"
+            android:layout_centerHorizontal="true"
             android:text="@string/empty_data"
-            android:textSize="24sp"
-            android:textStyle="bold"
             android:textColor="@color/secondaryTextColor"
-            android:layout_centerHorizontal="true"/>
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            app:lottie_rawRes="@raw/no_data"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center" />
+            app:lottie_rawRes="@raw/no_data" />
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

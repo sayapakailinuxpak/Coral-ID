@@ -41,9 +41,9 @@ class SliderActivity : AppCompatActivity() {
         binding.viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 if (position < DataDummy.slideAdapter.itemCount - 1) {
-                    binding.btnSkip.text = "Skip"
+                    binding.btnSkip.text = resources.getString(R.string.skip)
                 } else {
-                    binding.btnSkip.text = "Done"
+                    binding.btnSkip.text = resources.getString(R.string.done)
                 }
                 binding.btnSkip.setOnClickListener {
                     preferences.edit()
@@ -86,7 +86,7 @@ class SliderActivity : AppCompatActivity() {
     private fun setCurrentIndicator(index: Int) {
         val childCount = binding.dotsContainer.childCount
         for (i in 0 until childCount) {
-            val imageView = binding.dotsContainer.get(i) as ImageView
+            val imageView = binding.dotsContainer[i] as ImageView
             if (i == index) {
                 imageView.setImageDrawable(
                     ContextCompat.getDrawable(

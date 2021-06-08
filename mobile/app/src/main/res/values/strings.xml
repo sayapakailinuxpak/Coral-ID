@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">Coral-ID</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="result">Result</string>
     <string name="hard_coral">HARD CORAL</string>
     <string name="acropora_brueggemanni">Acropora brueggemanni</string>
-    <string name="button_coral_detail">Button coral detail</string>
     <string name="image_coral">Image Coral</string>
     <string name="expander_indicator">Expander indicator</string>
     <string name="famili">Famili</string>
@@ -16,8 +14,6 @@
     <string name="brook_1983">BROOK, 1983</string>
     <string name="scan_coral">Scan Coral</string>
     <string name="camera_suggestion">Place camera to object and keep steady</string>
-    <string name="button_scan">Pick Image</string>
-    <string name="or">or</string>
     <string name="flash_config">Pengaturan Senter</string>
     <string name="storage_desc">Load image from storage</string>
     <string name="image_preview_desc">Show image from local storage</string>
@@ -25,25 +21,22 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="process_confirm">Process this image ?</string>
-    <string name="dummy_text">Koloni dengan percabangan arboresen, cabang dengan satu atau dua axial koralit. Percabangan tidak teratur dan mendekati kearah ujung membengkak, berbenjol-benjol tidak teratur. Radial koralit membulat tersebar rapat tidak beraturan, meak, berbenjol-benjol tidak teratur. Radial ko- ralit membulat tersebar rapat tidak beraturan, memiliki warna coklat muda dan mendekati ujung memutih. Koloni dengan percabangan arboresen, cabang dengan satu atau dua axial koralit. Percabangan tidak teratur dan mendekati kearah ujung mem- bengkak, berbenjol-benjol tidak teratur. Radial ko- ralit membulat tersebar rapat tidak beraturan, memiliki warna coklat muda dan mendekati ujung memutih</string>
-    <string name="brook">BROOK</string>
     <string name="karakteristik_amp_warna"><![CDATA[Karakteristik & Warna]]></string>
     <string name="koloni_dengan_percabangan_arboresen_cabang_dengan_satu_atau_dua_axial_koralit_percabangan_tidak_teratur_dan_mendekati_kearah_ujung_membengkak_berbenjol_benjol_tidak_teratur_radial_koralit_membulat_tersebar_rapat_tidak_beraturan_memiliki_warna_coklat_muda_dan_mendekati_ujung_memutih">Koloni dengan percabangan arboresen, cabang dengan satu atau dua axial koralit. Percabangan tidak teratur dan mendekati kearah ujung membengkak, berbenjol-benjol tidak teratur. Radial koralit membulat tersebar rapat tidak beraturan, memiliki warna coklat muda dan mendekati ujung memutih</string>
     <string name="jenis_yang_mirip">Jenis Yang Mirip</string>
     <string name="jenis_ini_mudah_dibedakan_dari_yang_lain_dengan_ciri_khas_adanya_benjolan_benjolan_diujung_dari_percabangan_yang_kadang_kadang_terdiri_dari_dua_axial_koralit">Jenis ini mudah dibedakan dari yang lain dengan ciri khas adanya benjolan-benjolan diujung dari percabangan yang kadang-kadang terdiri dari dua axial koralit.</string>
     <string name="tersebar_di_seluruh_perairan_indonesia_jenis_ini_sangat_umum_dijumpai_di_daerah_tubir">Tersebar di seluruh perairan Indonesia, jenis ini sangat umum dijumpai di daerah tubir.</string>
     <string name="distribusi">Distribusi</string>
-    <string name="next">Next</string>
+    <string name="done">Done</string>
     <string name="skip">Skip</string>
     <string name="title_text">Title text</string>
     <string name="desc_text">Description Text</string>
     <string name="illustration">Illustration</string>
     <string name="analyzing">Analyzing...</string>
     <string name="desc_home">Let\'s Explore</string>
-    <string name="start_home">Get Started</string>
     <string name="book">Book</string>
     <string name="detect">Detect</string>
     <string name="corals_book">Coral\'s Book</string>
-    <string name="empty_data">Empty Data...</string>
+    <string name="empty_data">Empty Data!!</string>
     <string name="processing">Processing...</string>
 </resources>

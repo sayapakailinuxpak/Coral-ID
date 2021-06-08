@@ -49,7 +49,7 @@ object DataDummy {
                 "Acropora muricata di Indo-Pasifik memiliki bentuk pertumbuhan yang sama tetapi corallites memiliki dinding yang lebih tebal dan bibir lebih membulat hingga radial corallites.",
                 "Lereng terumbu bagian atas hingga tengah dan laguna dengan air jernih.",
                 "Acropora Branching (ACB)",
-                "test1.png"
+                "coral-dataset/images/ACER.jpg"
             )
         )
 
@@ -66,7 +66,7 @@ object DataDummy {
                 "Acropora prolifera, yang lebih kecil, tidak seperti elkhorn, tetapi memiliki corallites radial yang serupa.",
                 "Lereng terumbu luar yang dangkal terkena aksi gelombang.",
                 "Acropora Branching (ACB)",
-                "test2.png"
+                "coral-dataset/images/APAL.jpg"
             )
         )
         return listCoral

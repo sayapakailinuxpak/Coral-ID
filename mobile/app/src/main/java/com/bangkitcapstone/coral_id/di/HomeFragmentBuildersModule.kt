@@ -4,7 +4,6 @@ import com.bangkitcapstone.coral_id.ui.book.BookFragment
 import com.bangkitcapstone.coral_id.ui.detail.DetailFragment
 import com.bangkitcapstone.coral_id.ui.home.HomeFragment
 import com.bangkitcapstone.coral_id.ui.result.ResultFragment
-import com.bangkitcapstone.coral_id.ui.scan.ScanFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

@@ -3,12 +3,10 @@ package com.bangkitcapstone.coral_id.ui.result
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bangkitcapstone.coral_id.R
 import com.bangkitcapstone.coral_id.data.source.remote.response.PredictionResponse
 import com.bangkitcapstone.coral_id.databinding.ItemResultBinding
 import com.bangkitcapstone.coral_id.utils.PredictionCallback
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 
 class ResultAdapter(private val callback: PredictionCallback) :
     RecyclerView.Adapter<ResultAdapter.FollowViewHolder>() {
@@ -29,7 +27,7 @@ class ResultAdapter(private val callback: PredictionCallback) :
                 binding.textCoralFullNameResult.text = coral.fullName
                 binding.textCoralType.text = coral.coralType
                 Glide.with(itemView.context)
-                    .load(R.drawable.coral_image)
+                    .load(coral.imagePath)
                     .into(binding.imageCoralResult)
                 itemView.setOnClickListener {
                     callback.onItemClicked(coral)

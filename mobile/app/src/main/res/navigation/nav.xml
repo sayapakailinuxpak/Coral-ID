@@ -8,7 +8,7 @@
         android:id="@+id/homeFragment"
         android:name="com.bangkitcapstone.coral_id.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
@@ -23,17 +23,16 @@
         android:id="@+id/scanFragment"
         android:name="com.bangkitcapstone.coral_id.ui.scan.ScanFragment"
         android:label="fragment_scan"
-        tools:layout="@layout/fragment_scan" >
+        tools:layout="@layout/fragment_scan">
         <action
             android:id="@+id/action_scanFragment_to_resultFragment"
-            app:destination="@id/resultFragment">
-        </action>
+            app:destination="@id/resultFragment" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
         android:name="com.bangkitcapstone.coral_id.ui.result.ResultFragment"
         android:label="fragment_result"
-        tools:layout="@layout/fragment_result" >
+        tools:layout="@layout/fragment_result">
         <action
             android:id="@+id/action_resultFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
@@ -47,7 +46,7 @@
         android:id="@+id/bookFragment"
         android:name="com.bangkitcapstone.coral_id.ui.book.BookFragment"
         android:label="fragment_book"
-        tools:layout="@layout/fragment_book" >
+        tools:layout="@layout/fragment_book">
         <action
             android:id="@+id/action_bookFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
