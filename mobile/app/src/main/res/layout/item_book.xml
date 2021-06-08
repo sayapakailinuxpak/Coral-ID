@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     android:background="@color/primaryTextColor"
-    app:cardCornerRadius="16dp">
+    app:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:foreground="@drawable/overlay_gradient"
             android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
-            app:riv_corner_radius="16dp"
+            app:riv_corner_radius="8dp"
             tools:src="@drawable/coral_image" />
 
         <TextView
