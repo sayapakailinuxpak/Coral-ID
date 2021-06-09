@@ -49,7 +49,7 @@ This application strictly follows the below architecture:
 
 # Project Cloud using GCP (Google Cloud Platform)
 ## Description
-In this project, I will used Docker Container and building an Django REST API for connecting Machine Learning model. To deploy, we only to run the setup script and deploy the kubernetes engine and jenkins. 
+In this project, we use Docker Container and build a Django REST API for connecting Machine Learning model. To deploy, we only run the setup script and deploy the Kubernetes engine and Jenkins. 
 
 ## References
 
@@ -64,7 +64,7 @@ In this project, I will used Docker Container and building an Django REST API fo
 
 # Machine Learning
 ## Data Specification
-The dataset is from [StructureRSMAS](https://sci2s.ugr.es/CNN-coral-image-classification) that contains 409 images separated by class and has 14 of classes. But since the application is about coral identification, our team focuses on 7 classes (ACER, APAL, CNAT, MALC, MCAV, MMEA, and SSID). For our baseline and transfer learning model, we generate more images using data augmentation (from 256 images to 1898 images).
+The dataset is from [StructureRSMAS](https://sci2s.ugr.es/CNN-coral-image-classification) that contains 409 images separated by class and has 14 classes. But since the application is about coral identification, our team focuses on 7 classes (ACER, APAL, CNAT, MALC, MCAV, MMEA, and SSID). For our baseline and transfer learning model, we generate more images using data augmentation (from 256 images to 1898 images).
 <br>
 <br>
 ![WhatsApp Image 2021-06-09 at 21 30 16 (1)](https://user-images.githubusercontent.com/68630584/121375679-1c650c00-c96b-11eb-875c-60f2db6aa72c.jpeg)
@@ -83,13 +83,13 @@ In machine learning, we try three different scenarios for training models: basel
 ![flowchart](https://user-images.githubusercontent.com/68630584/121382435-cd21da00-c970-11eb-8fea-1fd4e7670a22.png)
 
 And here’s the result of each model:
-Algoritmn |Precision | Recall | F-1 Score
+Algorithm | Precision | Recall | F-1 Score
 ------------ |------------ | ------------- | -------------
 Baseline CNN Coursera | 0.10 | 0.11 | 0.10
 Transfer Learning DenseNet-121 | 0.15 | 0.17 | 0.15
 Object Detection YOLOv4 | **0.81** | **0.81** | **0.81** 
 
-The precision, recall, and F-1 score on the baseline model is really low and the transfer learning only improves them a little bit. Then with YOLOv4, we achieved 81% on precision, recall, and F-1 score and we think this is adequate for our model to run smoothly. Other reasons for using the YOLOv4 model: being able to **detect multiple classes in various conditions fast and accurately**.
+The precision, recall, and F-1 score on the baseline model are really low and the transfer learning only improves them a little bit. Then with YOLOv4, we achieved 81% on precision, recall, and F-1 score and we think this is adequate for our model to run smoothly. Other reasons for using the YOLOv4 model: being able to **detect multiple classes in various conditions fast and accurately**.
 
 ## References
 * [Bochkovskiy et al., 2020](https://arxiv.org/abs/2004.10934)
