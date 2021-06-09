@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from tensorflow.keras.models import load_model
 import rest_framework
-from decouple import config
 
 if os.getenv("GCP_PRODUCTION"):
     from google.cloud import storage
@@ -45,11 +44,7 @@ if os.getenv("PROD_SERVER"):
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0",
-                 "127.0.0.1",
-                 "34.101.77.146",  # Server Development
-                 "34.101.233.175",  # Server Production
-                 '*']
+ALLOWED_HOSTS = ["0.0.0.0",'*']
 
 # Application definition
 
@@ -94,7 +89,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -121,7 +115,7 @@ if os.getenv("GCP_PRODUCTION_DATABASE"):
         bucketFolder = './'
         storage_client = storage.Client()
         bucket = storage_client.get_bucket(bucketName)
-        download_file(bucketName, bucketFolder, "./", "model.h5")
+        download_file(bucketName, bucketFolder, "./", "db.sqlite3")
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -149,11 +143,11 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+USE_I18N = False
 
-USE_L10N = True
+USE_L10N = False
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
