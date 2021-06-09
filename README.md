@@ -45,26 +45,50 @@ This application strictly follows the below architecture:
 * **Zelory Compressor :** https://github.com/zetbaitsu/Compressor
 * **Material Design Component :** https://material.io/
 
+***
+
 <br>
 
 # Project Cloud using GCP (Google Cloud Platform)
+
 ## Description
-In this project, I will used Docker Container and building an Django REST API for connecting Machine Learning model. To deploy, we only to run the setup script and deploy the kubernetes engine and jenkins. 
+
+For the first infrastructure design, we used Kubernetes Engine mainly for serving our Django REST API and machine learning model. The reason why we used Kubernetes Engine because we can deploy our code using CI/CD concept by implementing Jenkins and Docker on the process. To configure the Jenkins, we setups a jenkins file based on our reference and modify it, the jenkins file also automatically insert the secret manager value into the settings.py and also build an docker image using container registry. The jenkins file also will deploy it on the kubernetes engine. The design also used Cloud SQL as database for the corals information and also Cloud Storage for saving the images and machine learning model. The infrastructure design will looks like this: 
+
+![Cloud Design](./cloud/images/Cloud-Design.png)
+
+When working on this infrastructure design, we successfully implemented CI/CD concept into the cloud infrastructure. The problem that we faced when working on this infrastructure is the django code didn’t response as we intended when integrating with machine learning model and also we low on our budgets. 
+
+The second infrastructure design and the design we ended up with, where the main component is using Compute Engine for serving our Django REST API. We used E2 series with machine type e2 medium and operating system Debian. The environment we setup in the Compute Engine was:
+
+- Setting up new user account for running django environment
+- Pull the bangkit team repository from Github
+- Installing requirements.txt using pip3
+- Settings Environment Variables based on our team needs
+- Run django services on port 80
+
+The django code we setup to automatically pull machine learning model from github, so we do not need to upload manually into the machine. The design for the infrastructure will looks like this:
+
+![Cloud Design - 2](./cloud/images/Cloud-Design-2.png)
 
 ## References
 
-- https://www.youtube.com/watch?v=Y_rh-VeC_j4 (dokcerizing Django API)
+- https://www.youtube.com/watch?v=Y_rh-VeC_j4 (dockerizing Django API)
 - [https://chriskyfung.github.io/blog/qwiklabs/deploy-to-kubernetes-in-google-cloud-challenge-lab](https://chriskyfung.github.io/blog/qwiklabs/deploy-to-kubernetes-in-google-cloud-challenge-lab)
 - [https://chriskyfung.github.io/blog/qwiklabs/Implement-DevOps-in-Google-Cloud-Challenge-Lab](https://chriskyfung.github.io/blog/qwiklabs/Implement-DevOps-in-Google-Cloud-Challenge-Lab)
 - [https://medium.com/avmconsulting-blog/kubernetes-ci-cd-using-jenkins-on-google-cloud-5b10da6147a6](https://medium.com/avmconsulting-blog/kubernetes-ci-cd-using-jenkins-on-google-cloud-5b10da6147a6)
 - [https://github.com/GoogleCloudPlatform/continuous-deployment-on-kubernetes](https://github.com/GoogleCloudPlatform/continuous-deployment-on-kubernetes)
 - [https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app](https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app)
 - [https://cloud.google.com/architecture/continuous-delivery-jenkins-kubernetes-engine](https://cloud.google.com/architecture/continuous-delivery-jenkins-kubernetes-engine)
+- [https://stackoverflow.com/questions/43469281/how-to-predict-input-image-using-trained-model-in-keras](https://stackoverflow.com/questions/43469281/how-to-predict-input-image-using-trained-model-in-keras)
+
 <br>
+
+***
 
 # Machine Learning
 ## Data Specification
-The dataset is from [StructureRSMAS](https://sci2s.ugr.es/CNN-coral-image-classification) that contains 409 images separated by class and has 14 of classes. But since the application is about coral identification, our team focuses on 7 classes (ACER, APAL, CNAT, MALC, MCAV, MMEA, and SSID). For our baseline and transfer learning model, we generate more images using data augmentation (from 256 images to 1898 images).
+The dataset is from [StructureRSMAS](https://sci2s.ugr.es/CNN-coral-image-classification) that contains 409 images separated by class and has 14 classes. But since the application is about coral identification, our team focuses on 7 classes (ACER, APAL, CNAT, MALC, MCAV, MMEA, and SSID). For our baseline and transfer learning model, we generate more images using data augmentation (from 256 images to 1898 images).
 <br>
 <br>
 ![WhatsApp Image 2021-06-09 at 21 30 16 (1)](https://user-images.githubusercontent.com/68630584/121375679-1c650c00-c96b-11eb-875c-60f2db6aa72c.jpeg)
@@ -83,19 +107,21 @@ In machine learning, we try three different scenarios for training models: basel
 ![flowchart](https://user-images.githubusercontent.com/68630584/121382435-cd21da00-c970-11eb-8fea-1fd4e7670a22.png)
 
 And here’s the result of each model:
-Algoritmn |Precision | Recall | F-1 Score
+Algorithm | Precision | Recall | F-1 Score
 ------------ |------------ | ------------- | -------------
 Baseline CNN Coursera | 0.10 | 0.11 | 0.10
 Transfer Learning DenseNet-121 | 0.15 | 0.17 | 0.15
 Object Detection YOLOv4 | **0.81** | **0.81** | **0.81** 
 
-The precision, recall, and F-1 score on the baseline model is really low and the transfer learning only improves them a little bit. Then with YOLOv4, we achieved 81% on precision, recall, and F-1 score and we think this is adequate for our model to run smoothly. Other reasons for using the YOLOv4 model: being able to **detect multiple classes in various conditions fast and accurately**.
+The precision, recall, and F-1 score on the baseline model are really low and the transfer learning only improves them a little bit. Then with YOLOv4, we achieved 81% on precision, recall, and F-1 score and we think this is adequate for our model to run smoothly. Other reasons for using the YOLOv4 model: being able to **detect multiple classes in various conditions fast and accurately**.
 
 ## References
 * [Bochkovskiy et al., 2020](https://arxiv.org/abs/2004.10934)
 * [Gómez-Ríos et al., 2019](http://dx.doi.org/10.1016/j.knosys.2019.104891)
 * [Huang et al., 2017](https://arxiv.org/abs/1608.06993)
 * [The AI Guy - YOLO4 Cloud Tutorial](https://github.com/theAIGuysCode/YOLOv4-Cloud-Tutorial)
+
+***
 
 # People Behind Coral-ID
 ## Android
