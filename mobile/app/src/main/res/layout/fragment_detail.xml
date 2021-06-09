@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.detail.DetailFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/mappbar_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/image_coral_detail"
+                android:layout_width="match_parent"
+                android:layout_height="296dp"
+                android:scaleType="fitXY"
+                tools:ignore="contentDescription"
+                tools:src="@drawable/coral_image" />
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/mtoolbar_detail"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:navigationIcon="@drawable/ic_back_button" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcard_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="416dp"
+        app:cardBackgroundColor="@color/backgroundColor"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/mappbar_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/backgroundColor"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/mtoolbar_detail_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/backgroundColor" />
+
+                <ImageView
+                    android:id="@+id/image_expander_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="@string/expander_indicator"
+                    android:src="@drawable/ic_expander_indicator" />
+
+                <TextView
+                    android:id="@+id/text_coral_full_name_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/acropora_brueggemanni"
+                    android:textAppearance="@style/TextAppearance.Coral_ID.Toolbar" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/text_coral_discoverer_and_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="72dp"
+                    android:fontFamily="@font/nunito_regular"
+                    tools:text="@string/brook_1983"
+                    android:textColor="@color/secondaryTextColor"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_coral_family"
+                    android:layout_width="0dp"
+                    android:layout_height="72dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="8dp"
+                    app:cardBackgroundColor="@color/primaryColor"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_coral_discoverer_and_year" />
+
+                <ImageView
+                    android:id="@+id/image_dna_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="@string/image_dna"
+                    android:src="@drawable/ic_dna_white"
+                    app:layout_constraintEnd_toEndOf="@id/card_coral_family"
+                    app:layout_constraintTop_toTopOf="@id/card_coral_family" />
+
+                <TextView
+                    android:id="@+id/text_coral_family_lable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/famili"
+                    android:textColor="@color/primaryTextColor"
+                    app:layout_constraintStart_toStartOf="@id/card_coral_family"
+                    app:layout_constraintTop_toTopOf="@id/card_coral_family" />
+
+                <TextView
+                    android:id="@+id/text_coral_family"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/pseudosiderastrea"
+                    android:textColor="@color/primaryTextColor"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="@+id/card_coral_family"
+                    app:layout_constraintTop_toBottomOf="@id/text_coral_family_lable" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_coral_genus"
+                    android:layout_width="0dp"
+                    android:layout_height="72dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="24dp"
+                    app:cardBackgroundColor="@color/secondaryColor"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline2"
+                    app:layout_constraintTop_toBottomOf="@+id/text_coral_discoverer_and_year" />
+
+                <ImageView
+                    android:id="@+id/image_dna_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="@string/image_dna"
+                    android:src="@drawable/ic_dna_black"
+                    app:layout_constraintEnd_toEndOf="@id/card_coral_genus"
+                    app:layout_constraintTop_toTopOf="@id/card_coral_genus" />
+
+                <TextView
+                    android:id="@+id/text_coral_genus_lable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/genus"
+                    android:textColor="@color/secondaryTextColor"
+                    app:layout_constraintStart_toStartOf="@id/card_coral_genus"
+                    app:layout_constraintTop_toTopOf="@id/card_coral_genus" />
+
+                <TextView
+                    android:id="@+id/text_coral_genus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/pseudosiderastrea"
+                    android:textColor="@color/secondaryTextColor"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="@+id/card_coral_genus"
+                    app:layout_constraintTop_toBottomOf="@id/text_coral_genus_lable" />
+
+                <ImageView
+                    android:id="@+id/image_blue_dot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:src="@drawable/ic_blue_dot"
+                    app:layout_constraintBottom_toBottomOf="@id/text_coral_characteristic_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/text_coral_characteristic_label"
+                    tools:ignore="contentDescription" />
+
+                <TextView
+                    android:id="@+id/text_coral_characteristic_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="48dp"
+                    android:text="@string/karakteristik_amp_warna"
+                    android:textAppearance="@style/TextAppearance.Coral_ID.Description.Label"
+                    app:layout_constraintStart_toEndOf="@id/image_blue_dot"
+                    app:layout_constraintTop_toBottomOf="@id/card_coral_family" />
+
+                <TextView
+                    android:id="@+id/text_coral_characteristic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="@string/koloni_dengan_percabangan_arboresen_cabang_dengan_satu_atau_dua_axial_koralit_percabangan_tidak_teratur_dan_mendekati_kearah_ujung_membengkak_berbenjol_benjol_tidak_teratur_radial_koralit_membulat_tersebar_rapat_tidak_beraturan_memiliki_warna_coklat_muda_dan_mendekati_ujung_memutih"
+                    android:textAppearance="@style/TextAppearance.Coral_ID.Description.Content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_coral_characteristic_label" />
+
+                <ImageView
+                    android:id="@+id/image_green_dot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:src="@drawable/ic_green_dot"
+                    app:layout_constraintBottom_toBottomOf="@id/text_coral_kind_of_look_alike_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/text_coral_kind_of_look_alike_label"
+                    tools:ignore="contentDescription" />
+
+                <TextView
+                    android:id="@+id/text_coral_kind_of_look_alike_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/jenis_yang_mirip"
+                    android:textAppearance="@style/TextAppearance.Coral_ID.Description.Label"
+                    app:layout_constraintStart_toEndOf="@id/image_green_dot"
+                    app:layout_constraintTop_toBottomOf="@id/text_coral_characteristic" />
+
+                <TextView
+                    android:id="@+id/text_coral_kind_of_look_alike"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="@string/jenis_ini_mudah_dibedakan_dari_yang_lain_dengan_ciri_khas_adanya_benjolan_benjolan_diujung_dari_percabangan_yang_kadang_kadang_terdiri_dari_dua_axial_koralit"
+                    android:textAppearance="@style/TextAppearance.Coral_ID.Description.Content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_coral_kind_of_look_alike_label" />
+
+                <ImageView
+                    android:id="@+id/image_black_dot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:src="@drawable/ic_black_dot"
+                    app:layout_constraintBottom_toBottomOf="@id/text_coral_distribution_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/text_coral_distribution_label"
+                    tools:ignore="contentDescription" />
+
+                <TextView
+                    android:id="@+id/text_coral_distribution_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/distribusi"
+                    android:textAppearance="@style/TextAppearance.Coral_ID.Description.Label"
+                    app:layout_constraintStart_toEndOf="@id/image_green_dot"
+                    app:layout_constraintTop_toBottomOf="@id/text_coral_kind_of_look_alike" />
+
+                <TextView
+                    android:id="@+id/text_coral_distribution"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="@string/tersebar_di_seluruh_perairan_indonesia_jenis_ini_sangat_umum_dijumpai_di_daerah_tubir"
+                    android:textAppearance="@style/TextAppearance.Coral_ID.Description.Content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_coral_distribution_label" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

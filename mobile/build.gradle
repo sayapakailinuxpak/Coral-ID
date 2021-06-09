@@ -8,6 +8,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:4.2.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -18,8 +19,25 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
+        //jcenter() // Warning: this repository is going to shut down soon
     }
+}
+
+ext {
+    espresso_version = "3.3.0"
+    glide_version = "4.12.0"
+    viewModel_version = "2.3.1"
+    mockito_version = "3.6.0"
+    retrofit_version = "2.9.0"
+    okHttp3_version = "4.9.0"
+    coroutine_version = "1.4.1"
+    room_version = "2.3.0"
+    dagger_version = "2.27"
+    nav_version = "2.3.5"
+    roundedImageView = "2.3.0"
+    camerax_version = "1.0.0"
+    lottieVersion = '3.7.0'
+    paggingVersion = '2.1.2'
 }
 
 task clean(type: Delete) {
