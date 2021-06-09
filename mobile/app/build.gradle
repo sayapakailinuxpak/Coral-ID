@@ -18,7 +18,7 @@ android {
         versionName "1.0"
 
         buildConfigField "String", "CORAL_DB", "\"coral_db\""
-        buildConfigField "String", "BASE_URL", "\"http://35.219.35.197/api/\""
+        buildConfigField "String", "BASE_URL", "\"http://real_base_url_or_ip/api/\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
