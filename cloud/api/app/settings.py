@@ -13,15 +13,16 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from tensorflow.keras.models import load_model
 import rest_framework
-from decouple import config
 
 if os.getenv("GCP_PRODUCTION"):
     from google.cloud import storage
+
 
 def download_file(bucketName, bucketFolder, localFolder, fileName):
     """Download file from GCP bucket."""
     blob = bucket.blob(fileName)
     blob.download_to_filename(localFolder + fileName)
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,18 +37,14 @@ SECRET_KEY = "APP-SECRET-KEY"
 if os.getenv("PROD_SERVER"):
     DEBUG = False
     REST_FRAMEWORK = {
-     'DEFAULT_RENDERER_CLASSES': (
-         'rest_framework.renderers.JSONRenderer',
-     )
+        'DEFAULT_RENDERER_CLASSES': (
+            'rest_framework.renderers.JSONRenderer',
+        )
     }
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0",
-                "127.0.0.1",
-                "34.101.77.146", # Server Development
-                "34.101.233.175", # Server Production
-                '*']
+ALLOWED_HOSTS = ["0.0.0.0",'*']
 
 # Application definition
 
@@ -92,7 +89,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -119,7 +115,7 @@ if os.getenv("GCP_PRODUCTION_DATABASE"):
         bucketFolder = './'
         storage_client = storage.Client()
         bucket = storage_client.get_bucket(bucketName)
-        download_file(bucketName, bucketFolder, "./", "model.h5")
+        download_file(bucketName, bucketFolder, "./", "db.sqlite3")
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -147,18 +143,19 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+USE_I18N = False
 
-USE_L10N = True
+USE_L10N = False
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = '/media/'
+if os.getenv("PROD_SERVER"):
+    MEDIA_ROOT = '/media/'
 
 # Machine Learning Model
 # Pull Machine Learning Model from GCS
@@ -168,6 +165,6 @@ if os.getenv("GCP_PRODUCTION"):
     bucketFolder = './'
     storage_client = storage.Client()
     bucket = storage_client.get_bucket(bucketName)
-    download_file(bucketName, bucketFolder, "./", "model.h5")
+    download_file(bucketName, bucketFolder, "./", "yolov4.h5")
 
-H5_MODEL = load_model("./model.h5")
+H5_MODEL = load_model("./yolov4.h5")
